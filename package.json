@@ -1,19 +1,27 @@
 {
   "name": "alchive1",
-  "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "private": true,
   "scripts": {
+    "serve": "vite preview",
+    "build": "vite build",
+    "build:extension": "bestzip dist.zip dist/",
     "dev": "vite",
     "dev:extension": "vite build --watch",
-    "build": "vue-tsc && vite build",
-    "build:extension": "bestzip dist.zip dist/",
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.21"
+    "@mdi/font": "5.9.55",
+    "roboto-fontface": "*",
+    "vue": "^3.4.21",
+    "vue-router": "4",
+    "vuetify": "npm:@vuetify/nightly@next",
+    "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    "@types/node": "^20.12.2",
+    "@types/vue": "^2.0.0",
+    "@types/webfontloader": "^1.0.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "autoprefixer": "^10.4.19",
     "bestzip": "^2.2.1",
@@ -26,6 +34,9 @@
     "tailwindcss": "^3.4.2",
     "typescript": "^5.2.2",
     "vite": "^5.2.4",
+    "vite-plugin-vuetify": "^1.0.0-alpha.12",
+    "vue-cli-plugin-vuetify": "~2.5.8",
     "vue-tsc": "^2.0.6"
-  }
+  },
+  "type": "module"
 }
