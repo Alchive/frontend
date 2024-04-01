@@ -1,3 +1,3 @@
 <template>
-  <h1>main 입니다.</h1>
+  <div>main 입니다.</div>
 </template>
