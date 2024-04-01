@@ -11,12 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mdi/font": "5.9.55",
-    "roboto-fontface": "*",
     "vue": "^3.4.21",
-    "vue-router": "4",
-    "vuetify": "npm:@vuetify/nightly@next",
-    "webfontloader": "^1.0.0"
+    "vue-router": "4"
   },
   "devDependencies": {
     "@types/node": "^20.12.2",
