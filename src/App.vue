@@ -1,17 +1,19 @@
 <template>
-  <div>
+  <router-view></router-view>
+  <!-- <div>
     <button type="button" @click="onClickMovePage">페이지 이동 방식1</button>
   </div>
-  <router-link to="/filter">페이지 이동 방식2</router-link>
-  <router-view></router-view>
+  <router-link to="/main">페이지 이동 방식2</router-link> -->
 </template>
 
-<script lang="ts">
+<!-- <script lang="ts">
 export default {
   methods: {
     onClickMovePage() {
-      this.$router.push('/filter');
+      this.$router.push('/main');
     },
   },
 };
-</script>
+</script> -->
+
+<style></style>

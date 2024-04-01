@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Filter from '../components/Filter.vue';
+import MainPageVue from '../pages/MainPage.vue';
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: [{ path: '/filter', name: 'filter', component: Filter }],
+  routes: [{ path: '/main', name: 'main', component: MainPageVue }],
 });
 
 export default router;
