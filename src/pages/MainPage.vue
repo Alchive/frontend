@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import Folder from '../components/BlueFolder.vue';
+</script>
+
 <template>
-  <div>main 입니다.</div>
+  <div>
+    <Folder />
+  </div>
 </template>
