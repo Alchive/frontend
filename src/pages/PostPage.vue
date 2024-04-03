@@ -79,11 +79,11 @@
     </div>
   </div>
   <div>
-    <editor v-model="content" />
+    <!-- <editor v-model="content" /> -->
 
     <div class="content">
-      <h3>Content</h3>
-      <pre><code>{{ content }}</code></pre>
+      <!-- <h3>Content</h3> -->
+      <!-- <pre><code>{{ content }}</code></pre> -->
     </div>
   </div>
 </template>
@@ -106,11 +106,11 @@ export default {
   components: { Navbar },
   TextEditor,
 
-  data() {
-    return {
-      content:
-        "<p>A Vue.js wrapper component for tiptap to use <code>v-model</code>.</p>",
-    };
-  },
+  //   data() {
+  //     return {
+  //       content:
+  //         "<p>A Vue.js wrapper component for tiptap to use <code>v-model</code>.</p>",
+  //     };
+  //   },
 };
 </script>
