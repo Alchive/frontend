@@ -30,3 +30,6 @@ import Tags from '../components/Tags.vue';
     </div>
   </div>
 </template>
+<script lang="ts">
+export default {};
+</script>
