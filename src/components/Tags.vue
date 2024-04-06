@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="flex w-[885px] justify-around">
+  <div class="flex w-[885px] justify-around my-[2.5rem]">
     <div class="flex items-center justify-center">
       <img src="../assets/mainpage/left.svg" class="w-[10px]" />
     </div>
