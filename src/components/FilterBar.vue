@@ -11,9 +11,7 @@ const toggleDropdown = () => {
 </script>
 
 <template>
-  <div
-    class="flex flex-row justify-between w-[1340px] border-b border-gray-200 z-20"
-  >
+  <div class="flex flex-row justify-between w-[1340px] border-b border-gray-200 z-20">
     <div class="font-medium text-center text-gray-500">
       <ul class="flex flex-wrap -mb-px">
         <li class="me-2">
@@ -90,9 +88,7 @@ const toggleDropdown = () => {
             <a href="#" class="block px-4 py-2 hover:bg-gray-100">Baekjoon</a>
           </li>
           <li>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100"
-              >Programmers</a
-            >
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Programmers</a>
           </li>
           <li>
             <a href="#" class="block px-4 py-2 hover:bg-gray-100">LeetCode</a>

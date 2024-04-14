@@ -44,21 +44,17 @@
 <template>
   <div class="w-[885px] my-[2.5rem] px-[2rem]">
     <swiper
-        :modules="modules"
-        :slidesPerView="5"
-        :centeredSlides="false"
-        :spaceBetween="0"
-        :pagination="{ type: undefined }"
-        :navigation="true"
-        :virtual="true"
-        class="mySwiper"
-        @swiper="setSwiperRef"
+      :modules="modules"
+      :slidesPerView="5"
+      :centeredSlides="false"
+      :spaceBetween="0"
+      :pagination="{ type: undefined }"
+      :navigation="true"
+      :virtual="true"
+      class="mySwiper"
+      @swiper="setSwiperRef"
     >
-      <swiper-slide
-          v-for="(slideContent, index) in slides"
-          :key="index"
-          :virtualIndex="index"
-      >
+      <swiper-slide v-for="(slideContent, index) in slides" :key="index" :virtualIndex="index">
         {{ slideContent }}
       </swiper-slide>
     </swiper>
@@ -79,7 +75,7 @@ import 'swiper/css/effect-flip';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/effect-fade';
 import 'swiper/css/effect-cards';
-import {Navigation, Pagination, Virtual} from 'swiper/modules';
+import { Navigation, Pagination, Virtual } from 'swiper/modules';
 // import Swiper core and required modules
 // import { Pagination, Navigation, Virtual } from 'swiper/vue';
 
@@ -89,22 +85,22 @@ let swiperRef = null;
 let appendNumber = 500;
 let prependNumber = 1;
 
-const setSwiperRef = (swiper) => {
-	swiperRef = swiper;
+const setSwiperRef = swiper => {
+  swiperRef = swiper;
 };
 
-const slideTo = (index) => {
-	swiperRef.slideTo(index - 1, 0);
+const slideTo = index => {
+  swiperRef.slideTo(index - 1, 0);
 };
 
 const append = () => {
-	slides.value = [...slides.value, `Slide ${++appendNumber}`];
+  slides.value = [...slides.value, `Slide ${++appendNumber}`];
 };
 
 const prepend = () => {
-	slides.value = [`Slide ${prependNumber - 2}`, `Slide ${prependNumber - 1}`, ...slides.value];
-	prependNumber -= 2;
-	swiperRef.slideTo(swiperRef.activeIndex + 2, 0);
+  slides.value = [`Slide ${prependNumber - 2}`, `Slide ${prependNumber - 1}`, ...slides.value];
+  prependNumber -= 2;
+  swiperRef.slideTo(swiperRef.activeIndex + 2, 0);
 };
 
 const modules = [Pagination, Navigation, Virtual];
