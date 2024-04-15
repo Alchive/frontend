@@ -1,3 +1,4 @@
+const { flatten } = require('eslint-plugin-vue/lib/utils/index.js');
 module.exports = {
   env: {
     browser: true,
@@ -5,11 +6,13 @@ module.exports = {
     node: true,
   },
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-essential',
-    'plugin:prettier/recommended',
+    'eslint:recommended',
+    '@vue/eslint-config-typescript',
+    '@vue/eslint-config-prettier/skip-formatting',
+    // 'plugin:@typescript-eslint/recommended',
   ],
+
   overrides: [
     {
       env: {
@@ -28,15 +31,18 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'vue'],
   rules: {
-    indent: ['error', 'tab'],
-    'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single'],
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    // indent: ['error', 'tab'],
+    // 'linebreak-style': ['error', 'auto'],
+    "vue/multi-word-component-names": "off",
+    quotes: 'off',
     'prettier/prettier': [
       'error',
       {
         singleQuote: true,
-        semi: false,
-        useTabs: true,
+        semi: true,
+        useTabs: false,
         tabWidth: 2,
         trailingComma: 'all',
         printWidth: 120,

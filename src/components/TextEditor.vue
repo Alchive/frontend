@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from "@tiptap/vue-3";
-import StarterKit from "@tiptap/starter-kit";
+import { Editor, EditorContent } from '@tiptap/vue-3';
+import StarterKit from '@tiptap/starter-kit';
 
 export default {
   components: {
@@ -19,7 +19,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      content: "<p>I’m running Tiptap with Vue.js. 🎉</p>",
+      content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
       extensions: [StarterKit],
     });
   },

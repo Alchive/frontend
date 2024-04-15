@@ -14,6 +14,7 @@
     "@tiptap/pm": "^2.2.4",
     "@tiptap/starter-kit": "^2.2.5",
     "@tiptap/vue-3": "^2.2.5",
+    "swiper": "^11.1.0",
     "vue": "^3.4.21",
     "vue-router": "4"
   },
@@ -22,6 +23,8 @@
     "@types/vue": "^2.0.0",
     "@types/webfontloader": "^1.0.0",
     "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
     "autoprefixer": "^10.4.19",
     "bestzip": "^2.2.1",
     "eslint": "^8.57.0",
