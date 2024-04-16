@@ -6,6 +6,7 @@ import NotFoundVue from "../pages/NotFound.vue";
 import DetailPage from "../pages/DetailPage.vue";
 import PostPage from "../pages/PostPage.vue";
 import Editor from "../components/Editor.vue";
+import Tags from "../components/Tags.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -23,6 +24,7 @@ const router = createRouter({
       ],
     },
     { path: "/popup", name: "popup", component: PopUpVue },
+    { path: "/tag", component: Tags },
     {
       path: "/:pathMatch(.*)*",
       component: NotFoundVue,
