@@ -13,7 +13,9 @@
 <script>
 // Toast UI Editor
 import Editor from "@toast-ui/editor";
-import "@toast-ui/editor/dist/toastui-editor.css";
+// import "@toast-ui/editor/dist/toastui-editor.css";
+import "../style/toastui-editor.css";
+import "../style/toastui-editor-only.css";
 //codeSyntaxHighlight 플러그인
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
