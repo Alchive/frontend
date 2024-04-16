@@ -34,7 +34,7 @@ export default {
 
     const editor = new Editor({
       el: document.querySelector("#editor"),
-      height: "500px",
+      height: "600px",
       initialEditType: "markdown",
       previewStyle: "vertical",
       plugins: [[codeSyntaxHighlight, { highlighter: Prism }], colorSyntax],
