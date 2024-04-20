@@ -12,9 +12,15 @@
           placeholder="검색어를 입력하세요."
           style="resize: none"
         ></textarea>
-        <img class="w-[20px]" src="../assets/search.svg" />
+        <img
+          class="w-[20px]"
+          src="../assets/search.svg"
+        />
       </div>
-      <img class="w-[30px]" src="../assets/user.svg" />
+      <img
+        class="w-[30px]"
+        src="../assets/user.svg"
+      />
     </div>
   </div>
 </template>

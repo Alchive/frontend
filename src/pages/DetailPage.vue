@@ -14,8 +14,14 @@
           <div class="font-Pretendards text-2xl">LV.1</div>
         </div>
         <div class="flex">
-          <img src="../assets/checkbox.svg" alt="" />
-          <img src="../assets/trash.svg" alt="" />
+          <img
+            src="../assets/checkbox.svg"
+            alt=""
+          />
+          <img
+            src="../assets/trash.svg"
+            alt=""
+          />
         </div>
       </div>
       <div class="flex gap-[20px]">
@@ -23,9 +29,18 @@
         <div class="px-[15px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl">이분탐색</div>
       </div>
       <div class="px-[50px] border-[2px] bg-white border-gray-300 rounded-[10px] text-2xl">
-        <div class="my-[10px]" @click="toggleContent">
-          <i v-if="!isContentVisible" class="fas fa-chevron-down"></i>
-          <i v-else class="fas fa-chevron-up"></i>
+        <div
+          class="my-[10px]"
+          @click="toggleContent"
+        >
+          <i
+            v-if="!isContentVisible"
+            class="fas fa-chevron-down"
+          ></i>
+          <i
+            v-else
+            class="fas fa-chevron-up"
+          ></i>
           문제
         </div>
         <div
@@ -38,7 +53,10 @@
           최소가 되는 지점을 말한다. 택시를 타는 것을 좋아하는 동우는 페르마 포인트를 구할 때 택시거리 즉, 맨해튼거리를
           적용하기로 했다. 또한, 위치 이외에도 여러 요인을 고려해 모두의 집의 좌표를 N차원 으로 생각하기로 했다.
         </div>
-        <div v-if="isContentVisible" class="flex my-[10px] text-2xl">
+        <div
+          v-if="isContentVisible"
+          class="flex my-[10px] text-2xl"
+        >
           <span class="flex flex-col">입력 <span class="border-[3px] border-blue-700" /></span>
         </div>
         <div
@@ -48,7 +66,10 @@
           첫 번째 줄에 점의 차원을 나타내는 정수 N과 점의 개수를 나타내는 정수 M (1≤N,M≤1000)이 공백으로 구분되어
           주어진다.
         </div>
-        <div v-if="isContentVisible" class="flex my-[10px] text-2xl">
+        <div
+          v-if="isContentVisible"
+          class="flex my-[10px] text-2xl"
+        >
           <span class="flex flex-col">작성한 메모 <span class="border-[3px] border-blue-700" /></span>
         </div>
         <div
@@ -61,7 +82,11 @@
       <div class="px-[50px] bg-white border-[2px] border-gray-300 rounded-[10px]">
         <div class="flex justify-between mt-[30px] my-[10px]">
           <span class="text-2xl flex flex-col">오답노트<span class="border-[3px] border-blue-700"></span></span>
-          <img class="" src="../assets/pen.svg" alt="" />
+          <img
+            class=""
+            src="../assets/pen.svg"
+            alt=""
+          />
         </div>
         <div
           class="mb-[30px] p-[20px] bg-white border-[2px] border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
