@@ -1,4 +1,4 @@
-const { flatten } = require('eslint-plugin-vue/lib/utils/index.js');
+// const { flatten } = require('eslint-plugin-vue/lib/utils/index.js');
 module.exports = {
   env: {
     browser: true,
@@ -35,21 +35,21 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     // indent: ['error', 'tab'],
     // 'linebreak-style': ['error', 'auto'],
-    "vue/multi-word-component-names": "off",
+    'vue/multi-word-component-names': 'off',
     quotes: 'off',
-    'prettier/prettier': [
-      'error',
-      {
-        singleQuote: true,
-        semi: true,
-        useTabs: false,
-        tabWidth: 2,
-        trailingComma: 'all',
-        printWidth: 120,
-        bracketSpacing: true,
-        arrowParens: 'avoid',
-        endOfLine: 'auto',
-      },
-    ],
+    // 'prettier/prettier': [
+    //   'error',
+    //   {
+    //     singleQuote: true,
+    //     semi: true,
+    //     useTabs: false,
+    //     tabWidth: 2,
+    //     trailingComma: 'all',
+    //     printWidth: 120,
+    //     bracketSpacing: true,
+    //     arrowParens: 'avoid',
+    //     endOfLine: 'auto',
+    //   },
+    // ],
   },
 };
