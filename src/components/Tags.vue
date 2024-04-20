@@ -54,7 +54,11 @@
       class="mySwiper"
       @swiper="setSwiperRef"
     >
-      <swiper-slide v-for="(slideContent, index) in slides" :key="index" :virtualIndex="index">
+      <swiper-slide
+        v-for="(slideContent, index) in slides"
+        :key="index"
+        :virtualIndex="index"
+      >
         {{ slideContent }}
       </swiper-slide>
     </swiper>
@@ -85,11 +89,11 @@ let swiperRef = null;
 let appendNumber = 500;
 let prependNumber = 1;
 
-const setSwiperRef = swiper => {
+const setSwiperRef = (swiper) => {
   swiperRef = swiper;
 };
 
-const slideTo = index => {
+const slideTo = (index) => {
   swiperRef.slideTo(index - 1, 0);
 };
 

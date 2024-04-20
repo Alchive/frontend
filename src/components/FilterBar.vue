@@ -83,15 +83,30 @@ const toggleDropdown = () => {
         id="dropdown"
         class="absolute top-[3rem] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700"
       >
-        <ul class="py-3 text-gray-700" aria-labelledby="dropdownDefaultButton">
+        <ul
+          class="py-3 text-gray-700"
+          aria-labelledby="dropdownDefaultButton"
+        >
           <li>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Baekjoon</a>
+            <a
+              href="#"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >Baekjoon</a
+            >
           </li>
           <li>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Programmers</a>
+            <a
+              href="#"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >Programmers</a
+            >
           </li>
           <li>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100">LeetCode</a>
+            <a
+              href="#"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >LeetCode</a
+            >
           </li>
         </ul>
       </div>

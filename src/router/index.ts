@@ -5,8 +5,8 @@ import MainLayoutVue from '../layout/MainLayout.vue';
 import NotFoundVue from '../pages/NotFound.vue';
 import DetailPage from '../pages/DetailPage.vue';
 import PostPage from '../pages/PostPage.vue';
-import TextEditor from '../components/TextEditor.vue';
-import Tags from "../components/Tags.vue";
+import Editor from '../components/Editor.vue';
+import Tags from '../components/Tags.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -20,11 +20,11 @@ const router = createRouter({
         { path: '/main', name: 'main', component: MainPageVue },
         { path: '/detail', name: 'detail-page', component: DetailPage },
         { path: '/post', name: 'post', component: PostPage },
-        { path: '/edit', name: 'edit', component: TextEditor },
+        { path: '/edit', name: 'edit', component: Editor },
       ],
     },
     { path: '/popup', name: 'popup', component: PopUpVue },
-    {path:'/tag',component:Tags},
+    { path: '/tag', component: Tags },
     {
       path: '/:pathMatch(.*)*',
       component: NotFoundVue,

@@ -1,6 +1,9 @@
 <template>
   <div class="flex text-center">
-    <v-select v-model="site" :items="sites"></v-select>
+    <v-select
+      v-model="site"
+      :items="sites"
+    ></v-select>
   </div>
 </template>
 

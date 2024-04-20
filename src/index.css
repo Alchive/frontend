@@ -3,21 +3,21 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "DungGeunMo";
+  font-family: 'DungGeunMo';
   src: url(../src/assets/DungGeunMo.ttf);
 }
 
 @font-face {
-  font-family: "ChemyRetro";
-  src: url(../src//assets/ChemyRetro_v01.ttf);
+  font-family: 'ChemyRetro';
+  src: url(../src/assets/ChemyRetro_v01.ttf);
 }
 
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   src: url(../src/assets/Pretendard-Bold.otf);
 }
 
 @font-face {
-  font-family: "Pretendards";
+  font-family: 'Pretendards';
   src: url(../src/assets/Pretendard-Medium.otf);
 }

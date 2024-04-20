@@ -3,7 +3,10 @@
 <template>
   <div class="relative">
     <div class="flex relative z-0">
-      <img src="../assets/mainpage/folder.svg" class="" />
+      <img
+        src="../assets/mainpage/folder.svg"
+        class=""
+      />
     </div>
     <div class="flex flex-col absolute z-1 left-1 top-0">
       <!--head-->
