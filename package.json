@@ -15,11 +15,12 @@
     "@tiptap/pm": "^2.2.4",
     "@tiptap/starter-kit": "^2.2.5",
     "@tiptap/vue-3": "^2.2.5",
-    "swiper": "^11.1.0",
     "@toast-ui/editor": "^3.2.2",
     "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
     "@toast-ui/editor-plugin-color-syntax": "^3.1.0",
+    "axios": "^1.6.8",
     "prismjs": "^1.29.0",
+    "swiper": "^11.1.0",
     "vue": "^3.4.21",
     "vue-router": "4"
   },
