@@ -24,12 +24,7 @@
           id="Refcode"
           class="w-[9px] h-[9px] mr-1 text-indigo-600 border-gray-300 rounded-sm focus:ring-indigo-500"
         />
-        <label
-          for="Refcode"
-          class="break-words font-medium text-[10px] text-[#676767]"
-        >
-          참고한 코드인가요?
-        </label>
+        <label for="Refcode" class="break-words font-medium text-[10px] text-[#676767]"> 참고한 코드인가요? </label>
       </div>
       <div class="break-words font-medium text-[10px] text-[#A0A0A0]">0/100</div>
     </div>
@@ -40,3 +35,4 @@
     </div>
   </div>
 </template>
+<script></script>

@@ -7,6 +7,8 @@ import DetailPage from '../pages/DetailPage.vue';
 import PostPage from '../pages/PostPage.vue';
 import Editor from '../components/Editor.vue';
 import Tags from '../components/Tags.vue';
+import LoginPopUp from '../pages/LoginPopUp.vue';
+import SignUp from '../pages/SignUp.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -24,6 +26,8 @@ const router = createRouter({
       ],
     },
     { path: '/popup', name: 'popup', component: PopUpVue },
+    { path: '/login', name: 'login', component: LoginPopUp },
+    { path: '', name: '', component: MainLayoutVue, children: [{ path: '/sign', name: 'sign', component: SignUp }] },
     { path: '/tag', component: Tags },
     {
       path: '/:pathMatch(.*)*',
