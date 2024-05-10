@@ -87,6 +87,7 @@ export default {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 헤더에 토큰 추가
           },
           body: JSON.stringify({
             userEmail: email,
@@ -94,11 +95,33 @@ export default {
           }),
         });
         if (!response.ok) {
+          // 토큰 만료 시 서버가 401 에러를 반환하도록 설정
+          if (response.status === 401) {
+            throw new Error('Token expired');
+          }
           throw new Error('Network response was not ok');
         }
 
-        //토큰 재발급 요청
-        if (response.status === 401) {
+        const data = await response.json();
+        //토큰이 존재하는지 확인
+        if (data.data) {
+          // 응답에서 토큰 추출
+          const { accessToken, refreshToken } = data.data;
+          // 로컬 스토리지에 저장
+          localStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('refreshToken', refreshToken);
+          localStorage.setItem('userName', this.userName);
+          console.log(this.userName);
+          // 액세스 토큰 디코딩
+          const decodedAccessToken: any = jwtDecode(accessToken);
+          console.log('Decoded:', decodedAccessToken);
+
+          window.location.href = '/main';
+        }
+      } catch (error: any) {
+        console.error('error:', error);
+        if (error.message === 'Token expired') {
+          // 토큰이 만료된 경우, 새로운 토큰을 요청하도록 설정
           try {
             const tokenRequest = await fetch('http://localhost:8080/api/v1/users/auth/token', {
               method: 'GET',
@@ -110,33 +133,11 @@ export default {
               console.log('토큰 재발급 성공');
             } else {
               console.error('토큰 재발급 실패');
-
-              // 리프레시 토큰이 만료되었을 경우
-              if (tokenRequest.status === 401) {
-                alert('리프레시 토큰이 만료되었습니다. 다시 로그인해주세요.');
-                window.location.href = 'http://localhost:8080/oauth2/authorization/google';
-              }
             }
           } catch (error) {
             console.error('Error fetching token:', error);
           }
         }
-        const data = await response.json();
-        //토큰이 존재하는지 확인
-        if (data.data) {
-          // 응답에서 토큰 추출
-          const { accessToken, refreshToken } = data.data;
-          // 로컬 스토리지에 저장
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', refreshToken);
-          // 액세스 토큰 디코딩
-          const decodedAccessToken: any = jwtDecode(accessToken);
-          console.log('Decoded:', decodedAccessToken);
-
-          window.location.href = '/main';
-        }
-      } catch (error) {
-        console.error('error:', error);
       }
     },
   },
