@@ -16,6 +16,7 @@
       </div>
       <!-- <span class="flex items-center text-blue-700">{{ nickname.value }}</span> -->
       <span class="flex items-center text-blue-700">{{ nickname.valueOf() }}</span>
+      <!-- <span class="flex items-center text-blue-700">alchive</span> -->
       <img class="w-[30px]" src="../assets/user.svg" />
     </div>
   </div>

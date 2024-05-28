@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div v-for="problem in problems" :key="problem.problemId" class="problem">
+  <div v-for="problem in problems" :key="problem.problemId" class="problem" @click="goToDetailPage(problem.problemId)">
     <div class="relative">
       <div class="flex relative z-0">
         <img src="../assets/mainpage/folder.svg" class="" />
@@ -60,14 +60,26 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+
+const router = useRouter(); // router 인스턴스 사용
 
 // 문자열을 최대 길이까지 자르고 뒤에 "..."을 붙여주는 함수
 const truncateString = (str: string, maxLength: number) => {
   return str.length > maxLength ? str.slice(0, maxLength) + '...' : str;
 };
 
+// 문제 데이터의 타입 정의
+interface Problem {
+  problemId: number;
+  problemDifficulty: string;
+  problemTitle: string;
+  problemState: string;
+}
+
 // API 응답 데이터를 저장할 변수 정의
-const problems = ref([]);
+// const problems = ref([]);
+const problems = ref<Problem[]>([]);
 
 // API에서 데이터를 가져오는 함수
 const problemAPI = async () => {
@@ -87,4 +99,9 @@ const problemAPI = async () => {
 
 // 컴포넌트가 마운트될 때 데이터를 가져오는 함수 호출
 onMounted(problemAPI);
+
+// 문제를 클릭했을 때 호출되는 함수
+const goToDetailPage = (problemId: number) => {
+  router.push({ name: 'detail-page', params: { id: problemId } });
+};
 </script>

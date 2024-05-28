@@ -10,7 +10,7 @@
     <div class="flex flex-col w-[1200px] font-Pretendard gap-[15px]">
       <div class="flex w-full justify-between mt-[80px] mb-[20px]">
         <div class="flex gap-[20px]">
-          <!-- <div class="text-4xl">10844. 쉬운 계단 수</div> -->
+          <div class="text-4xl" v-if="problems">{{ problems.problemNumber }}. {{ problems.problemTitle }}</div>
           <!-- <div class="text-4xl">{{ problems.problemNumber }}. {{ problems.problemTitle }}</div>
           <div class="font-Pretendards text-2xl">{{ problems.problemDifficulty }}</div> -->
         </div>
@@ -20,8 +20,8 @@
         </div>
       </div>
       <div class="flex gap-[20px]">
-        <div class="px-[10px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl">DP</div>
-        <div class="px-[15px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl">이분탐색</div>
+        <div class="px-[10px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl">해시</div>
+        <!-- <div class="px-[15px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl">이분탐색</div> -->
       </div>
       <div class="px-[50px] border-[2px] bg-white border-gray-300 rounded-[10px] text-2xl">
         <div class="my-[10px]" @click="toggleContent">
@@ -33,21 +33,29 @@
           v-if="isContentVisible"
           class="w-[1100px] mb-[20px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          많은 동아리가 그렇듯 고려대학교 사이버국방학과 동아리 MatKor는 주기적으로 모여 활동한다. 학기 중에는 학교에서
-          모이는 것이 합리적이었으나, 방학에는 그렇지 않다. 그래서 어떻게 모이는 것이 합리적인지 고민하던 동우는 모두의
-          집을 점으로 잡아 페르마 포인트에서 만나기로 했다! 여기서 페르마 포인트란 주어진 모든 점으로 부터 거리의 합이
-          최소가 되는 지점을 말한다. 택시를 타는 것을 좋아하는 동우는 페르마 포인트를 구할 때 택시거리 즉, 맨해튼거리를
-          적용하기로 했다. 또한, 위치 이외에도 여러 요인을 고려해 모두의 집의 좌표를 N차원 으로 생각하기로 했다.
+          {{ problems.problemDescription }}
+          <!-- 얀에서는 매년 달리기 경주가 열립니다. 해설진들은 선수들이 자기 바로 앞의 선수를 추월할 때 추월한 선수의 이름을
+          부릅니다. 예를 들어 1등부터 3등까지 "mumu", "soe", "poe" 선수들이 순서대로 달리고 있을 때, 해설진이
+          "soe"선수를 불렀다면 2등인 "soe" 선수가 1등인 "mumu" 선수를 추월했다는 것입니다. 즉 "soe" 선수가 1등, "mumu"
+          선수가 2등으로 바뀝니다. 선수들의 이름이 1등부터 현재 등수 순서대로 담긴 문자열 배열 players와 해설진이 부른
+          이름을 담은 문자열 배열 callings가 매개변수로 주어질 때, 경주가 끝났을 때 선수들의 이름을 1등부터 등수
+          순서대로 배열에 담아 return 하는 solution 함수를 완성해주세요. -->
         </div>
         <div v-if="isContentVisible" class="flex my-[10px] text-2xl">
-          <span class="flex flex-col">입력 <span class="border-[3px] border-blue-700" /></span>
+          <span class="flex flex-col">제한사항<span class="border-[3px] border-blue-700" /></span>
         </div>
         <div
           v-if="isContentVisible"
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          첫 번째 줄에 점의 차원을 나타내는 정수 N과 점의 개수를 나타내는 정수 M (1≤N,M≤1000)이 공백으로 구분되어
-          주어진다.
+          <span
+            >5 ≤ players의 길이 ≤ 50,000<br />- players[i]는 i번째 선수의 이름을 의미합니다.<br />
+            - players의 원소들은 알파벳 소문자로만 이루어져 있습니다.<br />
+            - players에는 중복된 값이 들어가 있지 않습니다.<br />- 3 ≤ players[i]의 길이 ≤ 10<br />
+            2 ≤ callings의 길이 ≤v1,000,000<br />
+            - callings는 players의 원소들로만 이루어져 있습니다.<br />- 경주 진행중 1등인 선수의 이름은 불리지
+            않습니다.</span
+          >
         </div>
         <div v-if="isContentVisible" class="flex my-[10px] text-2xl">
           <span class="flex flex-col">작성한 메모 <span class="border-[3px] border-blue-700" /></span>
@@ -56,45 +64,66 @@
           v-if="isContentVisible"
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          문제가 너무 어려웠다~ 다음에는 시간 복잡도를 신경 써서 풀어보자~
+          문제의 제한 사항을 체크해보면 players 배열의 최대 길이는 50,000이고 callings 배열의 최대 길이는 1,000,000이
+          된다. 만약 배열의 index를 활용하여 문제를 풀 경우 최악의 경우 O(n^2)이 되는데 이를 계산해보면 총
+          50,000,000,000번 연산해야 하는 경우가 발생한다. 실제로 이러한 방법으로 풀었던 코드가 바로 아래에 있다.
         </div>
       </div>
       <div class="px-[50px] bg-white border-[2px] border-gray-300 rounded-[10px]">
         <div class="flex justify-between mt-[30px] my-[10px]">
-          <span class="text-2xl flex flex-col">오답노트<span class="border-[3px] border-blue-700"></span></span>
+          <span class="text-2xl flex flex-col">풀이<span class="border-[3px] border-blue-700"></span></span>
           <img class="" src="../assets/pen.svg" alt="" />
         </div>
         <div
           class="mb-[30px] p-[20px] bg-white border-[2px] border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
+          v-if="problems"
         >
-          에라토스테네스의 체 임의의 수 n 까지의 소수를 구하고자 할 때 2부터 √N (제곱근) 까지 돌며 모든 배수들을
-          소수에서 제외시키는 방식 O(N^1/2)의 시간복잡도를 갖는다. N의 제곱근 까지 반복하는 이유? 어떤 수 n이 1과 자신이
-          아닌 두 수의 곱으로 되어 있다고 생각해봅시다. (즉, 소수가 아님)n = ab 이고 n' 은 n 의 제곱근이라고
-          표현합시다.여기서 만약,a >= n' 이면, ab = n = n'*n' 이므로 b=n' 가 됩니다.따라서 n' 까지만 검사를 하면
-          합성수를 이루는 a, b 중 작은 수(위에서는 b)까지는 충분히 체크할 수 있고, 합성수가 존재하지 않으면 소수라고 할
-          수 있습니다.
+          {{ problems.problemMemo }}<br />
+          <span
+            >hash 자료구조를 이용해서 풀이하는 방법으로 바꿨다. object의 key로 접근할 때 bigO는 O(1)이다. 먼저,
+            players의 name을 key, 해당 index를 value로 초기화해주었다. 다음으로 callings에 대한 반복문을 돌리는데,
+            초기화해주었던 hash에 callings에 대한 요소(이름)로 key에 접근해서 value를 currIdx에 담아두었다. 그럼 해당
+            이름의 index를 받아왔고 이름이 불린 앞사람과 위치를 바꿔야 한다. 앞사람의 이름을 fornt라는 변수에 currIdx -
+            1 값을 담아두었다.
+          </span>
         </div>
         <div class="flex justify-between my-[10px] text-2xl">
-          <span class="flex flex-col">풀이 <span class="border-[3px] border-blue-700" /></span>
+          <span class="flex flex-col">코드<span class="border-[3px] border-blue-700" /></span>
           <span class="font-Pretendards text-red-500">Ref</span>
         </div>
         <div
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          const toggle = document.querySelectorAll(".comment-tog"); toggle.forEach((tog) =>
-          tog.addEventListener("click", function () { const cont = tog.nextElementSibling; const icon = tog.children[0];
-          if (cont.classList.contains("show")) { cont.classList.remove("show"); icon.classList.remove("fa-chevron-up");
-          icon.classList.add("fa-chevron-down"); } else { cont.classList.add("show");
-          icon.classList.remove("fa-chevron-down"); icon.classList.add("fa-chevron-up"); } }) ); },
+          <span>
+            <span class="text-red-400"> function</span><span class="text-blue-400"> solution(</span
+            ><span class="text-green-500">players, callings</span><span class="text-blue-400">)</span> {<br />
+            <span class="text-red-400">&nbsp; const</span> hash =
+            <span class="text-red-400">new</span> Map();<br /><br />&nbsp; players.forEach(<span class="text-blue-400"
+              >(</span
+            ><span class="text-green-500">name, index</span><span class="text-blue-400">) => </span> {<br />&nbsp;
+            &nbsp;&nbsp;&nbsp; hash.set(name, index);<br />&nbsp; }) <br /><br />callings.forEach(<span
+              class="text-green-500"
+              >name</span
+            ><span class="text-blue-400"> => </span> { <br /><span class="text-red-400">&nbsp; const</span> currIdx =
+            hash.get(name);<br />
+            <span class="text-red-400">&nbsp; const</span> front = players[currIdx - 1];<br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp; [players[currIdx], players[currIdx -1]] = [players[currIdx -1],
+            players[currIdx]];<br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp; hash.set(name, hash.get(name) - 1);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; hash.set(front, hash.get(name) + 1); <br />})<br /><br />
+            <span class="text-red-400">&nbsp; return</span> players;<br />
+            }</span
+          >
         </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { ref, defineComponent } from 'vue';
+import { ref, defineComponent, onMounted } from 'vue';
 import Navbar from '../components/Navbar.vue';
 import axios from 'axios';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   components: { Navbar },
@@ -105,12 +134,15 @@ export default defineComponent({
     };
 
     // API 응답 데이터를 저장할 변수 정의
-    const problems = ref([]);
+    // const problems = ref([]);
+
+    const route = useRoute(); // 현재 라우트 정보 가져오기
+    const problems = ref<any>(null); // 문제 데이터를 저장할 변수 정의
 
     // API에서 데이터를 가져오는 함수
-    const problemAPI = async () => {
+    const problemAPI = async (problemId: number) => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/problems/${53}`);
+        const response = await axios.get(`http://localhost:8080/api/v1/problems/${problemId}`);
         console.log('게시글 조회 성공', response.data.data);
         problems.value = response.data.data; // 데이터를 변수에 할당하여 반응성 유지
       } catch (error) {
@@ -119,7 +151,13 @@ export default defineComponent({
     };
 
     // 컴포넌트가 마운트될 때 데이터를 가져오는 함수 호출
-    problemAPI();
+    // problemAPI();
+
+    // 컴포넌트가 마운트될 때 데이터를 가져오는 함수 호출
+    onMounted(() => {
+      const problemId = route.params.id; // URL 파라미터에서 problemId 추출
+      problemAPI(Number(problemId)); // API 호출
+    });
 
     return {
       isContentVisible,
