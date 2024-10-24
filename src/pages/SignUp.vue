@@ -42,6 +42,7 @@
 </template>
 <script lang="ts">
 import { jwtDecode } from 'jwt-decode';
+import router from '../router';
 export default {
   async mounted() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -87,7 +88,7 @@ export default {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 헤더에 토큰 추가
+            // Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 헤더에 토큰 추가
           },
           body: JSON.stringify({
             userEmail: email,
@@ -116,7 +117,8 @@ export default {
           const decodedAccessToken: any = jwtDecode(accessToken);
           console.log('Decoded:', decodedAccessToken);
 
-          window.location.href = '/main';
+          // window.location.href = '/main';
+          router.push('/main');
         }
       } catch (error: any) {
         console.error('error:', error);

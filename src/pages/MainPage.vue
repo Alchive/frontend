@@ -11,10 +11,8 @@ import Tags from '../components/Tags.vue';
     <FilterBar />
     <Tags />
     <div class="flex flex-col gap-12">
-      <div class="flex flex-row gap-[2.5rem]">
-        <Folder />
-        <Folder />
-        <Folder />
+      <!-- <div class="flex flex-row gap-[2.5rem]"> -->
+      <div class="flex flex-wrap justify-center gap-[2.5rem] px-[20px]">
         <Folder />
       </div>
     </div>

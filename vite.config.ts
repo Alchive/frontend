@@ -10,7 +10,11 @@ export default defineConfig({
     port: 5173,
     host: true,
     proxy: {
-      '/api': 'http://localhost:8080',
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true, // 대상 서버에 요청을 올바르게 전달
+        rewrite: path => path.replace(/^\/api/, ''), // API 경로 수정
+      },
     },
   },
   resolve: {
