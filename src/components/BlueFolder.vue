@@ -45,7 +45,9 @@
             </div>
             <div class="rounded-[7px] flex flex-row box-sizing-border gap-[5px]">
               <div class="rounded-[7px] bg-[#F0F0F0] flex flex-row justify-center p-[2px_8px] box-sizing-border">
-                <span class="break-words font-medium text-[11px] text-[#000000]"> 유니언파인드 </span>
+                <span class="break-words font-medium text-[11px] text-[#000000]">{{
+                  problem.problemAlgorithms.join(', ')
+                }}</span>
               </div>
               <div class="rounded-[7px] bg-[#F0F0F0] flex flex-row justify-center p-[2px_8px] box-sizing-border">
                 <span class="break-words font-medium text-[11px] text-[#000000]"> DP </span>
@@ -75,6 +77,8 @@ interface Problem {
   problemDifficulty: string;
   problemTitle: string;
   problemState: string;
+  platform: string;
+  problemAlgorithms: string[];
 }
 
 // API 응답 데이터를 저장할 변수 정의
@@ -82,23 +86,38 @@ interface Problem {
 const problems = ref<Problem[]>([]);
 
 // API에서 데이터를 가져오는 함수
-const problemAPI = async () => {
+const problemAPI = async (offset = 0, limit = 10) => {
   try {
-    const response = await axios.get('http://localhost:8080/api/v1/problems', {
+    const response = await axios.get('http://localhost:8080/api/v1/boards', {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 헤더에 토큰 추가
       },
+      params: {
+        offset: offset,
+        limit: limit,
+      },
     });
     console.log('전체 목록 조회 성공', response.data.data);
-    problems.value = response.data.data; // 데이터를 변수에 할당하여 반응성 유지
+    // problems.value = response.data.data; // 데이터를 변수에 할당하여 반응성 유지
+    const content = response.data.data.content[0];
+    problems.value = content.map((item: any) => ({
+      problemId: item.problem.id,
+      problemDifficulty: item.problem.difficulty,
+      problemTitle: item.problem.title,
+      problemState: item.board.status,
+      platform: item.problem.platform,
+      problemAlgorithms: item.problem.algorithms,
+    }));
   } catch (error) {
     console.error('전체 목록 조회 실패', error);
   }
 };
 
 // 컴포넌트가 마운트될 때 데이터를 가져오는 함수 호출
-onMounted(problemAPI);
+onMounted(() => {
+  problemAPI();
+});
 
 // 문제를 클릭했을 때 호출되는 함수
 const goToDetailPage = (problemId: number) => {

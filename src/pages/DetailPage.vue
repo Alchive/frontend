@@ -10,7 +10,7 @@
     <div class="flex flex-col w-[1200px] font-Pretendard gap-[15px]">
       <div class="flex w-full justify-between mt-[80px] mb-[20px]">
         <div class="flex gap-[20px]">
-          <div class="text-4xl" v-if="problems">{{ problems.problemNumber }}. {{ problems.problemTitle }}</div>
+          <div class="text-4xl" v-if="problems">{{ problems.problem.number }}. {{ problems.problem.title }}</div>
           <!-- <div class="text-4xl">{{ problems.problemNumber }}. {{ problems.problemTitle }}</div>
           <div class="font-Pretendards text-2xl">{{ problems.problemDifficulty }}</div> -->
         </div>
@@ -20,7 +20,12 @@
         </div>
       </div>
       <div class="flex gap-[20px]">
-        <div class="px-[10px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl">해시</div>
+        <div
+          v-if="problems"
+          class="px-[10px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl"
+        >
+          {{ problems.problem.algorithms.join(', ') }}
+        </div>
         <!-- <div class="px-[15px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl">이분탐색</div> -->
       </div>
       <div class="px-[50px] border-[2px] bg-white border-gray-300 rounded-[10px] text-2xl">
@@ -33,7 +38,10 @@
           v-if="isContentVisible"
           class="w-[1100px] mb-[20px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          {{ problems.problemDescription }}
+          {{ problems.problem.url }} <br />
+          <br />
+          {{ problems.problem.content }}
+          <!-- {{ problems.problemDescription }} -->
           <!-- 얀에서는 매년 달리기 경주가 열립니다. 해설진들은 선수들이 자기 바로 앞의 선수를 추월할 때 추월한 선수의 이름을
           부릅니다. 예를 들어 1등부터 3등까지 "mumu", "soe", "poe" 선수들이 순서대로 달리고 있을 때, 해설진이
           "soe"선수를 불렀다면 2등인 "soe" 선수가 1등인 "mumu" 선수를 추월했다는 것입니다. 즉 "soe" 선수가 1등, "mumu"
@@ -64,9 +72,10 @@
           v-if="isContentVisible"
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          문제의 제한 사항을 체크해보면 players 배열의 최대 길이는 50,000이고 callings 배열의 최대 길이는 1,000,000이
+          {{ problems.board.memo }}
+          <!-- 문제의 제한 사항을 체크해보면 players 배열의 최대 길이는 50,000이고 callings 배열의 최대 길이는 1,000,000이
           된다. 만약 배열의 index를 활용하여 문제를 풀 경우 최악의 경우 O(n^2)이 되는데 이를 계산해보면 총
-          50,000,000,000번 연산해야 하는 경우가 발생한다. 실제로 이러한 방법으로 풀었던 코드가 바로 아래에 있다.
+          50,000,000,000번 연산해야 하는 경우가 발생한다. 실제로 이러한 방법으로 풀었던 코드가 바로 아래에 있다. -->
         </div>
       </div>
       <div class="px-[50px] bg-white border-[2px] border-gray-300 rounded-[10px]">
@@ -78,13 +87,13 @@
           class="mb-[30px] p-[20px] bg-white border-[2px] border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
           v-if="problems"
         >
-          {{ problems.problemMemo }}<br />
-          <span
-            >hash 자료구조를 이용해서 풀이하는 방법으로 바꿨다. object의 key로 접근할 때 bigO는 O(1)이다. 먼저,
+          {{ problems.solutions[0].content }}<br />
+          <span>
+            <!-- hash 자료구조를 이용해서 풀이하는 방법으로 바꿨다. object의 key로 접근할 때 bigO는 O(1)이다. 먼저,
             players의 name을 key, 해당 index를 value로 초기화해주었다. 다음으로 callings에 대한 반복문을 돌리는데,
             초기화해주었던 hash에 callings에 대한 요소(이름)로 key에 접근해서 value를 currIdx에 담아두었다. 그럼 해당
             이름의 index를 받아왔고 이름이 불린 앞사람과 위치를 바꿔야 한다. 앞사람의 이름을 fornt라는 변수에 currIdx -
-            1 값을 담아두었다.
+            1 값을 담아두었다. -->
           </span>
         </div>
         <div class="flex justify-between my-[10px] text-2xl">
@@ -92,10 +101,12 @@
           <span class="font-Pretendards text-red-500">Ref</span>
         </div>
         <div
+          v-if="problems"
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
           <span>
-            <span class="text-red-400"> function</span><span class="text-blue-400"> solution(</span
+            {{ problems.solutions[0].description }}
+            <!-- <span class="text-red-400"> function</span><span class="text-blue-400"> solution(</span
             ><span class="text-green-500">players, callings</span><span class="text-blue-400">)</span> {<br />
             <span class="text-red-400">&nbsp; const</span> hash =
             <span class="text-red-400">new</span> Map();<br /><br />&nbsp; players.forEach(<span class="text-blue-400"
@@ -112,8 +123,8 @@
             &nbsp;&nbsp;&nbsp;&nbsp; hash.set(name, hash.get(name) - 1);<br />
             &nbsp;&nbsp;&nbsp;&nbsp; hash.set(front, hash.get(name) + 1); <br />})<br /><br />
             <span class="text-red-400">&nbsp; return</span> players;<br />
-            }</span
-          >
+            } -->
+          </span>
         </div>
       </div>
     </div>
@@ -140,9 +151,9 @@ export default defineComponent({
     const problems = ref<any>(null); // 문제 데이터를 저장할 변수 정의
 
     // API에서 데이터를 가져오는 함수
-    const problemAPI = async (problemId: number) => {
+    const problemAPI = async (boardId: number) => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/problems/${problemId}`);
+        const response = await axios.get(`http://localhost:8080/api/v1/boards/${boardId}`);
         console.log('게시글 조회 성공', response.data.data);
         problems.value = response.data.data; // 데이터를 변수에 할당하여 반응성 유지
       } catch (error) {
@@ -155,8 +166,8 @@ export default defineComponent({
 
     // 컴포넌트가 마운트될 때 데이터를 가져오는 함수 호출
     onMounted(() => {
-      const problemId = route.params.id; // URL 파라미터에서 problemId 추출
-      problemAPI(Number(problemId)); // API 호출
+      const boardId = route.params.id; // URL 파라미터에서 boardId 추출
+      problemAPI(Number(boardId)); // API 호출
     });
 
     return {

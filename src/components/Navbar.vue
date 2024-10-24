@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between items-center w-full h-[60px] my-[10px] px-[30px]">
-    <div class="flex gap-[7px]">
+    <div class="flex gap-[7px] cursor-pointer" @click="goHome">
       <span class="text-blue-700 font-DungGeunMo text-6xl">{</span>
       <div class="flex text-blue-700 font-ChemyRetro text-4xl leading-[2]">Alchive</div>
       <span class="text-blue-700 font-DungGeunMo text-6xl">}</span>
@@ -24,18 +24,25 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useUserStore } from '../stores/username';
 
 export default defineComponent({
   setup() {
     const userStore = useUserStore();
+    const router = useRouter();
     // const displayedUserName = computed(() => userStore.userName.valueOf); // 사용자 이름을 computed 속성으로 가져옴
 
     const nickname = computed(() => userStore.userName);
     console.log(nickname.value);
 
+    const goHome = () => {
+      router.push('/main'); // 루트 경로로 이동
+    };
+
     return {
       nickname,
+      goHome,
     };
   },
 });
