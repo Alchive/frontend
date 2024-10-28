@@ -20,7 +20,7 @@ const truncateString = (str: string, maxLength: number) => {
 
 // 문제를 클릭했을 때 호출되는 함수
 const goToDetailPage = (problemId: number) => {
-  router.push({ name: 'detail-page', params: { id: problemId } });
+  router.push({ name: 'detail', params: { id: problemId } });
 };
 </script>
 <template>
