@@ -15,8 +15,8 @@
           <div class="font-Pretendards text-2xl">{{ problems.problemDifficulty }}</div> -->
         </div>
         <div class="flex">
-          <img src="../assets/checkbox.svg" alt="" />
-          <img src="../assets/trash.svg" alt="" />
+          <img src="../assets/checkbox.svg" alt="check" />
+          <img src="../assets/trash.svg" alt="trash" />
         </div>
       </div>
       <div class="flex gap-[20px]">

@@ -38,11 +38,12 @@ import SignUp from '../pages/SignUp.vue';
 const routes = [
   {
     path: '/',
-    name: 'home',
+    // name: 'home',
     component: MainLayoutVue,
     children: [
       //배경 layout 적용할 페이지 경로 설정
       { path: '/main', name: 'main', component: MainPageVue },
+      // { path: '/', name: 'home', component: MainPageVue },
       { path: '/detail/:id', name: 'detail-page', component: DetailPage, props: true },
       { path: '/post', name: 'post', component: PostPage },
       { path: '/edit', name: 'edit', component: Editor },
