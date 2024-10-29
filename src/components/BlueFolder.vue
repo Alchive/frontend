@@ -22,6 +22,11 @@ const truncateString = (str: string, maxLength: number) => {
 const goToDetailPage = (problemId: number) => {
   router.push({ name: 'detail', params: { id: problemId } });
 };
+
+// problemAlgorithms에 "none"만 있으면 빈 배열로 처리하는 함수
+const filterAlgorithms = (algorithms: string[]) => {
+  return algorithms.includes('none') && algorithms.length === 1 ? [] : algorithms;
+};
 </script>
 <template>
   <div
@@ -89,9 +94,8 @@ const goToDetailPage = (problemId: number) => {
             </div>
             <div class="rounded-[7px] flex flex-row box-sizing-border gap-[5px]">
               <div
-                v-for="algorithm in problem.problemAlgorithms"
+                v-for="algorithm in filterAlgorithms(problem.problemAlgorithms)"
                 :key="algorithm"
-                v-if="algorithm !== 'none'"
                 class="rounded-[7px] bg-[#F0F0F0] flex flex-row justify-center p-[2px_8px] box-sizing-border"
               >
                 <span class="break-words font-medium text-[11px] text-[#000000]">{{ algorithm }}</span>
