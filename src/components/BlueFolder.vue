@@ -1,7 +1,10 @@
-<script setup lang="ts"></script>
-
 <template>
-  <div v-for="problem in problems" :key="problem.problemId" class="problem" @click="goToDetailPage(problem.problemId)">
+  <div
+    v-for="(problem, index) in props.problems"
+    :key="problem.problemId + '-' + index"
+    class="problem"
+    @click="goToDetailPage(problem.problemId)"
+  >
     <div class="relative">
       <div class="flex relative z-0">
         <img src="../assets/mainpage/folder.svg" class="" />
@@ -60,18 +63,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
 import { useRouter } from 'vue-router';
+const router = useRouter();
 
-const router = useRouter(); // router 인스턴스 사용
-
-// 문자열을 최대 길이까지 자르고 뒤에 "..."을 붙여주는 함수
 const truncateString = (str: string, maxLength: number) => {
   return str.length > maxLength ? str.slice(0, maxLength) + '...' : str;
 };
 
-// 문제 데이터의 타입 정의
 interface Problem {
   problemId: number;
   problemDifficulty: string;
@@ -80,46 +78,8 @@ interface Problem {
   platform: string;
   problemAlgorithms: string[];
 }
+const props = defineProps<{ problems: Problem[] }>();
 
-// API 응답 데이터를 저장할 변수 정의
-// const problems = ref([]);
-const problems = ref<Problem[]>([]);
-
-// API에서 데이터를 가져오는 함수
-const problemAPI = async (offset = 0, limit = 10) => {
-  try {
-    const response = await axios.get('http://localhost:8080/api/v1/boards', {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 헤더에 토큰 추가
-      },
-      params: {
-        offset: offset,
-        limit: limit,
-      },
-    });
-    console.log('전체 목록 조회 성공', response.data.data);
-    // problems.value = response.data.data; // 데이터를 변수에 할당하여 반응성 유지
-    const content = response.data.data.content[0];
-    problems.value = content.map((item: any) => ({
-      problemId: item.problem.id,
-      problemDifficulty: item.problem.difficulty,
-      problemTitle: item.problem.title,
-      problemState: item.board.status,
-      platform: item.problem.platform,
-      problemAlgorithms: item.problem.algorithms,
-    }));
-  } catch (error) {
-    console.error('전체 목록 조회 실패', error);
-  }
-};
-
-// 컴포넌트가 마운트될 때 데이터를 가져오는 함수 호출
-onMounted(() => {
-  problemAPI();
-});
-
-// 문제를 클릭했을 때 호출되는 함수
 const goToDetailPage = (problemId: number) => {
   router.push({ name: 'detail-page', params: { id: problemId } });
 };

@@ -1,111 +1,41 @@
-<!--<script setup lang="ts"></script>-->
+<script setup lang="ts">
+import { defineEmits, ref } from 'vue';
 
-<!--<template>-->
-<!--  <div class="flex w-[885px] justify-around my-[2.5rem]">-->
-<!--    <div class="flex items-center justify-center">-->
-<!--      <img src="../assets/mainpage/left.svg" class="w-[10px]" />-->
-<!--    </div>-->
-<!--    <div-->
-<!--      class="rounded-[10px] bg-[#FFFFFF] shadow-[0px_0px_3px_rgba(0,0,0,0.25)] flex justify-center p-[5px_15px]"-->
-<!--    >-->
-<!--      <span class="font-semibold text-[14px] text-[#004AB9]"> BFS/DFS </span>-->
-<!--    </div>-->
-<!--    <div-->
-<!--      class="rounded-[10px] bg-[#FFFFFF] shadow-[0px_0px_3px_rgba(0,0,0,0.25)] flex justify-center p-[5px_15px]"-->
-<!--    >-->
-<!--      <span class="font-semibold text-[14px] text-[#004AB9]"> DP </span>-->
-<!--    </div>-->
-<!--    <div-->
-<!--      class="rounded-[10px] bg-[#FFFFFF] shadow-[0px_0px_3px_rgba(0,0,0,0.25)] flex justify-center p-[5px_15px]"-->
-<!--    >-->
-<!--      <span class="font-semibold text-[14px] text-[#004AB9]"> 이분탐색 </span>-->
-<!--    </div>-->
-<!--    <div-->
-<!--      class="rounded-[10px] bg-[#FFFFFF] shadow-[0px_0px_3px_rgba(0,0,0,0.25)] flex justify-center p-[5px_15px]"-->
-<!--    >-->
-<!--      <span class="font-semibold text-[14px] text-[#004AB9]"> BFS/DFS </span>-->
-<!--    </div>-->
-<!--    <div-->
-<!--      class="rounded-[10px] bg-[#FFFFFF] shadow-[0px_0px_3px_rgba(0,0,0,0.25)] flex justify-center p-[5px_15px]"-->
-<!--    >-->
-<!--      <span class="font-semibold text-[14px] text-[#004AB9]"> DP </span>-->
-<!--    </div>-->
-<!--    <div-->
-<!--      class="rounded-[10px] bg-[#FFFFFF] shadow-[0px_0px_3px_rgba(0,0,0,0.25)] flex justify-center p-[5px_15px]"-->
-<!--    >-->
-<!--      <span class="font-semibold text-[14px] text-[#004AB9]"> 이분탐색 </span>-->
-<!--    </div>-->
-<!--    <div class="flex items-center justify-center">-->
-<!--      <img src="../assets/mainpage/right.svg" class="w-[10px]" />-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</template>-->
+const emit = defineEmits(['select-tag']);
+const selectedTag = ref(null);
+
+const tags = ['이분탐색', 'DP', 'BFS/DFS', '브루트포스', '그리디', '정렬', '구현', '그래프'];
+
+const handleTagClick = (tag: any) => {
+  selectedTag.value = tag;
+  emit('select-tag', tag);
+};
+</script>
 
 <template>
-  <div class="w-[885px] my-[2.5rem] px-[2rem]">
-    <swiper
-      :modules="modules"
-      :slidesPerView="5"
-      :centeredSlides="false"
-      :spaceBetween="0"
-      :pagination="{ type: undefined }"
-      :navigation="true"
-      :virtual="true"
-      class="mySwiper"
-      @swiper="setSwiperRef"
+  <div class="flex w-[1200px] justify-center flex-row gap-10 my-[2.5rem]">
+    <div
+      @click="handleTagClick('')"
+      class="rounded-[10px] bg-[#FFFFFF] shadow-[0px_0px_3px_rgba(0,0,0,0.25)] flex justify-center p-[0.25rem_1.2rem] font-semibold text-[14px] border-solid border-2 border-transparent cursor-pointer hover:bg-gray-100 hover:text-[#004AB9]"
     >
-      <swiper-slide
-        v-for="(slideContent, index) in slides"
-        :key="index"
-        :virtualIndex="index"
-      >
-        {{ slideContent }}
-      </swiper-slide>
-    </swiper>
+      <span class="font-semibold text-[14px] text-[#000000]"> 초기화 </span>
+    </div>
+    <div class="flex items-center justify-center">
+      <img src="../assets/mainpage/left.svg" class="w-[10px]" />
+    </div>
+    <div
+      v-for="tag in tags"
+      :key="tag"
+      @click="handleTagClick(tag)"
+      class="rounded-[10px] bg-[#FFFFFF] shadow-[0px_0px_3px_rgba(0,0,0,0.25)] flex justify-center p-[0.25rem_1.2rem] font-semibold text-[14px] cursor-pointer hover:bg-gray-100 hover:text-[#004AB9]"
+      :class="{
+      'text-[#004AB9] shadow-[0px_0px_2px_#004AB9] border-solid border-2 border-[#5598fc]': tag === selectedTag,
+      'border-solid border-2 border-transparent': tag !== selectedTag
+      }">
+      {{ tag }}
+    </div>
+    <div class="flex items-center justify-center">
+      <img src="../assets/mainpage/right.svg" class="w-[10px]" />
+    </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from 'swiper/vue';
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import 'swiper/css/virtual';
-import 'swiper/css/effect-cube';
-import 'swiper/css/effect-flip';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/effect-fade';
-import 'swiper/css/effect-cards';
-import { Navigation, Pagination, Virtual } from 'swiper/modules';
-// import Swiper core and required modules
-// import { Pagination, Navigation, Virtual } from 'swiper/vue';
-
-// Create array with 500 slides
-const slides = ref(Array.from({ length: 500 }).map((_, index) => `Slide ${index + 1}`));
-let swiperRef = null;
-let appendNumber = 500;
-let prependNumber = 1;
-
-const setSwiperRef = (swiper) => {
-  swiperRef = swiper;
-};
-
-const slideTo = (index) => {
-  swiperRef.slideTo(index - 1, 0);
-};
-
-const append = () => {
-  slides.value = [...slides.value, `Slide ${++appendNumber}`];
-};
-
-const prepend = () => {
-  slides.value = [`Slide ${prependNumber - 2}`, `Slide ${prependNumber - 1}`, ...slides.value];
-  prependNumber -= 2;
-  swiperRef.slideTo(swiperRef.activeIndex + 2, 0);
-};
-
-const modules = [Pagination, Navigation, Virtual];
-</script>
