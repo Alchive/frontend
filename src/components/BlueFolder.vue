@@ -47,13 +47,13 @@
               </div>
             </div>
             <div class="rounded-[7px] flex flex-row box-sizing-border gap-[5px]">
-              <div class="rounded-[7px] bg-[#F0F0F0] flex flex-row justify-center p-[2px_8px] box-sizing-border">
-                <span class="break-words font-medium text-[11px] text-[#000000]">{{
-                  problem.problemAlgorithms.join(', ')
-                }}</span>
-              </div>
-              <div class="rounded-[7px] bg-[#F0F0F0] flex flex-row justify-center p-[2px_8px] box-sizing-border">
-                <span class="break-words font-medium text-[11px] text-[#000000]"> DP </span>
+              <div
+                v-for="algorithm in problem.problemAlgorithms"
+                :key="algorithm"
+                v-if="algorithm !== 'none'"
+                class="rounded-[7px] bg-[#F0F0F0] flex flex-row justify-center p-[2px_8px] box-sizing-border"
+              >
+                <span class="break-words font-medium text-[11px] text-[#000000]">{{ algorithm }}</span>
               </div>
             </div>
           </div>

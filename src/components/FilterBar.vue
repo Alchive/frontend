@@ -24,7 +24,7 @@ interface Problem {
 const problems = ref<Problem[]>([]);
 const filteredProblems = ref<Problem[]>([]); // 필터링된 데이터를 저장하는 상태
 
-const problemAPI = async (offset = 0, limit = 10) => {
+const problemAPI = async (offset = 0, limit = 15) => {
   try {
     const response = await axios.get('http://localhost:8080/api/v1/boards', {
       headers: {
@@ -35,12 +35,17 @@ const problemAPI = async (offset = 0, limit = 10) => {
     });
     console.log('전체 목록 조회 성공', response.data.data.content[0]);
 
-    const content = response.data.data.content[0];
-    problems.value = content.map((item: any) => ({
+    const contentArray = response.data.data.content.flat();
+    problems.value = contentArray.map((item: any) => ({
       problemId: item.problem.id,
       problemDifficulty: item.problem.difficulty,
       problemTitle: item.problem.title,
-      problemState: item.board.status,
+      problemState:
+        item.board.status === 'CORRECT'
+          ? '맞았습니다'
+          : item.board.status === 'INCORRECT'
+            ? '틀렸습니다'
+            : '미제출',
       platform: item.problem.platform,
       problemAlgorithms: item.problem.algorithms,
     }));
