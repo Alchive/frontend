@@ -6,6 +6,15 @@ import { useProblemStore } from '../stores/problemStore';
 const router = useRouter(); // router 인스턴스 사용
 const problemStore = useProblemStore();
 
+interface Problem {
+  problemId: number;
+  problemDifficulty: string;
+  problemTitle: string;
+  problemState: string;
+  platform: string;
+  problemAlgorithms: string[];
+}
+const props = defineProps<{ problems: Problem[] }>();
 //problemStore 호출한 정보 가져오기
 onMounted(() => {
   if (!problemStore.problems.length) {
@@ -30,8 +39,8 @@ const filterAlgorithms = (algorithms: string[]) => {
 </script>
 <template>
   <div
-    v-for="problem in problemStore.problems"
-    :key="problem.problemId"
+    v-for="(problem, index) in props.problems"
+    :key="problem.problemId + '-' + index"
     class="problem"
     @click="goToDetailPage(problem.problemId)"
   >
@@ -107,3 +116,25 @@ const filterAlgorithms = (algorithms: string[]) => {
     </div>
   </div>
 </template>
+<!-- <script setup lang="ts">
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
+const truncateString = (str: string, maxLength: number) => {
+  return str.length > maxLength ? str.slice(0, maxLength) + '...' : str;
+};
+
+interface Problem {
+  problemId: number;
+  problemDifficulty: string;
+  problemTitle: string;
+  problemState: string;
+  platform: string;
+  problemAlgorithms: string[];
+}
+const props = defineProps<{ problems: Problem[] }>();
+
+const goToDetailPage = (problemId: number) => {
+  router.push({ name: 'detail-page', params: { id: problemId } });
+};
+</script> -->

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MainPageVue from '../pages/MainPage.vue';
-import PopUpVue from '../pages/PopUp.vue';
 import MainLayoutVue from '../layout/MainLayout.vue';
 import NotFoundVue from '../pages/NotFound.vue';
 import DetailPage from '../pages/DetailPage.vue';
@@ -26,7 +25,6 @@ const routes = [
       { path: '/sign', name: 'sign', component: SignUp },
     ],
   },
-  { path: '/popup', name: 'popup', component: PopUpVue },
   { path: '/login', name: 'login', component: LoginPopUp },
   // { path: '/sign', name: 'sign', component: SignUp },
   // {
