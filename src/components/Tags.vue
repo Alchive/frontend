@@ -4,7 +4,7 @@ import { defineEmits, ref } from 'vue';
 const emit = defineEmits(['select-tag']);
 const selectedTag = ref(null);
 
-const tags = ['이분탐색', 'DP', 'BFS/DFS', '브루트포스', '그리디', '정렬', '구현', '그래프'];
+const tags = ['이분탐색', 'DP', 'BFS', 'DFS', '그리디', '정렬', '구현', '그래프'];
 
 const handleTagClick = (tag: any) => {
   selectedTag.value = tag;
