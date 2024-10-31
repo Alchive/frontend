@@ -40,10 +40,11 @@ const problemAPI = async (offset = 0, limit = 10) => {
       problemId: item.problem.id,
       problemDifficulty: item.problem.difficulty,
       problemTitle: item.problem.title,
-      problemState: item.board.status,
+      problemState: item.board.status === 'CORRECT' ? '맞았습니다' : '틀렸습니다',
       platform: item.problem.platform,
       problemAlgorithms: item.problem.algorithms,
     }));
+    console.log('문제 목록 조회 성공', problems);
 
     filterProblems();
   } catch (error) {
@@ -72,7 +73,7 @@ defineExpose({
 });
 
 const filterProblems = () => {
-  filteredProblems.value = problems.value.filter((item) => {
+  filteredProblems.value = problems.value.filter(item => {
     const tabFilter =
       selectedTab.value === '전체' ||
       (selectedTab.value === '맞았습니다' && item.problemState === 'CORRECT') ||
@@ -104,64 +105,103 @@ onMounted(() => {
             href="#"
             :class="[
               'inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300',
-              selectedTab === '전체' ? 'text-[#004AB9] border-[#004AB9]' : 'border-transparent'
+              selectedTab === '전체' ? 'text-[#004AB9] border-[#004AB9]' : 'border-transparent',
             ]"
-          >전체</a>
+            >전체</a
+          >
         </li>
         <li class="me-2" @click="handleTabClick('맞았습니다')">
           <a
             href="#"
             :class="[
               'inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300',
-              selectedTab === '맞았습니다' ? 'text-[#004AB9] border-[#004AB9]' : 'border-transparent'
+              selectedTab === '맞았습니다' ? 'text-[#004AB9] border-[#004AB9]' : 'border-transparent',
             ]"
-          >맞았습니다</a>
+            >맞았습니다</a
+          >
         </li>
         <li class="me-2" @click="handleTabClick('틀렸습니다')">
           <a
             href="#"
             :class="[
               'inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300',
-              selectedTab === '틀렸습니다' ? 'text-[#004AB9] border-[#004AB9]' : 'border-transparent'
+              selectedTab === '틀렸습니다' ? 'text-[#004AB9] border-[#004AB9]' : 'border-transparent',
             ]"
-          >틀렸습니다</a>
+            >틀렸습니다</a
+          >
         </li>
         <li class="me-2" @click="handleTabClick('미제출')">
           <a
             href="#"
             :class="[
               'inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300',
-              selectedTab === '미제출' ? 'text-[#004AB9] border-[#004AB9]' : 'border-transparent'
+              selectedTab === '미제출' ? 'text-[#004AB9] border-[#004AB9]' : 'border-transparent',
             ]"
-          >미제출</a>
+            >미제출</a
+          >
         </li>
         <li class="me-2" @click="handleTabClick('풀이완료')">
           <a
             href="#"
             :class="[
               'inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300',
-              selectedTab === '풀이완료' ? 'text-[#004AB9] border-[#004AB9]' : 'border-transparent'
+              selectedTab === '풀이완료' ? 'text-[#004AB9] border-[#004AB9]' : 'border-transparent',
             ]"
-          >풀이완료</a>
+            >풀이완료</a
+          >
         </li>
       </ul>
     </div>
     <div class="flex flex-row relative">
-      <button id="dropdownButton" @click="toggleDropdown()" class="text-black font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center" type="button">
+      <button
+        id="dropdownButton"
+        @click="toggleDropdown()"
+        class="text-black font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center"
+        type="button"
+      >
         {{ selectedPlatform === 'ALL' ? 'ALL' : selectedPlatform }}
-        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+        <svg
+          class="w-2.5 h-2.5 ms-3"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 10 6"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 1 4 4 4-4"
+          />
         </svg>
       </button>
-      <div :class="{ hidden: !dropdownOpen }" id="dropdown" class="absolute top-[3rem] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700">
+      <div
+        :class="{ hidden: !dropdownOpen }"
+        id="dropdown"
+        class="absolute top-[3rem] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700"
+      >
         <ul class="py-3 text-gray-700" aria-labelledby="dropdownDefaultButton">
-          <li><a href="#" @click.prevent="handlePlatformClick('ALL')" class="block px-4 py-2 hover:bg-gray-100">ALL</a></li>
-          <li><a href="#" @click.prevent="handlePlatformClick('BAEKJOON')" class="block px-4 py-2 hover:bg-gray-100">Baekjoon</a></li>
-          <li><a href="#" @click.prevent="handlePlatformClick('PROGRAMMERS')" class="block px-4 py-2 hover:bg-gray-100">Programmers</a></li>
-          <li><a href="#" @click.prevent="handlePlatformClick('LEETCODE')" class="block px-4 py-2 hover:bg-gray-100">LeetCode</a></li>
+          <li>
+            <a href="#" @click.prevent="handlePlatformClick('ALL')" class="block px-4 py-2 hover:bg-gray-100">ALL</a>
+          </li>
+          <li>
+            <a href="#" @click.prevent="handlePlatformClick('BAEKJOON')" class="block px-4 py-2 hover:bg-gray-100"
+              >Baekjoon</a
+            >
+          </li>
+          <li>
+            <a href="#" @click.prevent="handlePlatformClick('PROGRAMMERS')" class="block px-4 py-2 hover:bg-gray-100"
+              >Programmers</a
+            >
+          </li>
+          <li>
+            <a href="#" @click.prevent="handlePlatformClick('LEETCODE')" class="block px-4 py-2 hover:bg-gray-100"
+              >LeetCode</a
+            >
+          </li>
         </ul>
       </div>
     </div>
   </div>
 </template>
-

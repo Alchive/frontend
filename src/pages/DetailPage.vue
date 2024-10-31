@@ -1,3 +1,94 @@
+<script lang="ts">
+import { ref, defineComponent, onMounted } from 'vue';
+import Navbar from '../components/Navbar.vue';
+import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
+
+interface Problem {
+  id: number;
+  createdAt: string;
+  updatedAt: string | null;
+  number: number;
+  title: string;
+  content: string;
+  url: string;
+  difficulty: string;
+  platform: string;
+  algorithms: string[];
+}
+
+interface Solution {
+  id: number;
+  createdAt: string;
+  updatedAt: string | null;
+  content: string;
+  language: string;
+  description: string;
+  status: string;
+  memory: number;
+  time: number;
+  submitAt: string;
+}
+
+interface Board {
+  id: number;
+  createdAt: string;
+  updatedAt: string | null;
+  memo: string;
+  status: string;
+  description: string;
+}
+
+interface BoardData {
+  board: Board;
+  problem: Problem;
+  solutions: Solution[];
+}
+
+export default defineComponent({
+  components: { Navbar },
+  setup() {
+    const isContentVisible = ref(false); // 컨텐츠의 가시성을 나타내는 ref 변수
+    const toggleContent = () => {
+      isContentVisible.value = !isContentVisible.value; // 컨텐츠의 가시성을 토글
+    };
+
+    const route = useRoute(); // 현재 라우트 정보 가져오기
+    const router = useRouter();
+    const boardData = ref<BoardData | null>(null); // API 데이터를 저장할 변수
+
+    const fetchBoardData = async () => {
+      const boardId = Number(route.params.id); // URL 파라미터에서 boardId 추출
+      console.log('boardId', boardId);
+      try {
+        const response = await axios.get(`http://localhost:8080/api/v1/boards/${boardId}`);
+        console.log('게시글 조회 성공:', response.data.data);
+        boardData.value = response.data.data;
+      } catch (error) {
+        console.error('게시글 조회 실패:', error);
+      }
+    };
+
+    // 컴포넌트가 마운트될 때 데이터 로드
+    onMounted(fetchBoardData);
+
+    // `edit` 페이지로 이동하는 함수
+    const goToEditPage = () => {
+      const boardId = route.params.id;
+      console.log('Navigating to edit page with ID:', boardId);
+      router.push({ name: 'edit', params: { id: boardId } }); // 'edit' 페이지로 이동하며 ID 전달
+    };
+
+    return {
+      isContentVisible,
+      toggleContent,
+      boardData,
+      goToEditPage,
+    };
+  },
+});
+</script>
+
 <template>
   <link
     rel="stylesheet"
@@ -7,24 +98,55 @@
   />
   <Navbar />
   <div class="flex justify-center items-center">
-    <div class="flex flex-col w-[1200px] font-Pretendard gap-[15px]">
-      <div class="flex w-full justify-between mt-[80px] mb-[20px]">
+    <div v-if="boardData" class="flex flex-col w-[1200px] font-Pretendard gap-[15px]">
+      <div class="flex w-full justify-between mt-[40px]">
         <div class="flex gap-[20px]">
-          <div class="text-4xl" v-if="problems">{{ problems.problem.number }}. {{ problems.problem.title }}</div>
+          <div class="text-4xl">{{ boardData.problem.number }}. {{ boardData.problem.title }}</div>
           <!-- <div class="text-4xl">{{ problems.problemNumber }}. {{ problems.problemTitle }}</div>
           <div class="font-Pretendards text-2xl">{{ problems.problemDifficulty }}</div> -->
         </div>
         <div class="flex">
-          <img src="../assets/checkbox.svg" alt="" />
-          <img src="../assets/trash.svg" alt="" />
+          <!-- 문제 상태에 따라 fill 색상 변경 -->
+          <svg width="37" height="35" viewBox="0 0 40 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_108_11)">
+              <path
+                d="M20.0002 1.33337C10.8002 1.33337 3.3335 8.80004 3.3335 18C3.3335 27.2 10.8002 34.6667 20.0002 34.6667C29.2002 34.6667 36.6668 27.2 36.6668 18C36.6668 8.80004 29.2002 1.33337 20.0002 1.33337ZM20.0002 31.3334C12.6502 31.3334 6.66683 25.35 6.66683 18C6.66683 10.65 12.6502 4.66671 20.0002 4.66671C27.3502 4.66671 33.3335 10.65 33.3335 18C33.3335 25.35 27.3502 31.3334 20.0002 31.3334ZM27.6502 10.6334L16.6668 21.6167L12.3502 17.3167L10.0002 19.6667L16.6668 26.3334L30.0002 13L27.6502 10.6334Z"
+                :fill="boardData && boardData.board.status === 'CORRECT' ? '#26B104' : '#FF0000'"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_108_11">
+                <rect width="40" height="40" fill="white" transform="translate(0 -2)" />
+              </clipPath>
+            </defs>
+          </svg>
+          <img class="w-[40px] h-[40px]" src="../assets/trash.svg" alt="trash" />
         </div>
       </div>
-      <div class="flex gap-[20px]">
-        <div
-          v-if="problems"
-          class="px-[10px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl"
-        >
-          {{ problems.problem.algorithms.join(', ') }}
+      <div class="flex mb-[20px]">
+        <img
+          v-if="boardData.problem.platform === 'BAEKJOON'"
+          src="../assets//mainpage/baekjoon.svg"
+          class="mr-2 bg-[50%_50%] bg-cover bg-no-repeat w-[23px] h-[22px]"
+        />
+        <img
+          v-else
+          src="../assets//mainpage/programers.svg"
+          class="mr-2 bg-[50%_50%] bg-cover bg-no-repeat w-[23px] h-[22px]"
+        />
+
+        <a :href="boardData.problem.url" target="_blank" class="text-gray-600">
+          {{ boardData.problem.url }}
+        </a>
+        <br />
+      </div>
+      <!-- 문제 내용 -->
+      <div class="flex gap-[20px]" v-if="boardData">
+        <div class="px-[10px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl">
+          {{ boardData.problem.algorithms?.join(', ') }}
+        </div>
+        <div class="px-[10px] border-[2px] bg-white border-gray-300 rounded-[10px] text-green-600 text-xl">
+          {{ boardData.solutions[0].language }}
         </div>
         <!-- <div class="px-[15px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl">이분탐색</div> -->
       </div>
@@ -35,19 +157,10 @@
           문제
         </div>
         <div
-          v-if="isContentVisible"
+          v-if="isContentVisible && boardData"
           class="w-[1100px] mb-[20px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          {{ problems.problem.url }} <br />
-          <br />
-          {{ problems.problem.content }}
-          <!-- {{ problems.problemDescription }} -->
-          <!-- 얀에서는 매년 달리기 경주가 열립니다. 해설진들은 선수들이 자기 바로 앞의 선수를 추월할 때 추월한 선수의 이름을
-          부릅니다. 예를 들어 1등부터 3등까지 "mumu", "soe", "poe" 선수들이 순서대로 달리고 있을 때, 해설진이
-          "soe"선수를 불렀다면 2등인 "soe" 선수가 1등인 "mumu" 선수를 추월했다는 것입니다. 즉 "soe" 선수가 1등, "mumu"
-          선수가 2등으로 바뀝니다. 선수들의 이름이 1등부터 현재 등수 순서대로 담긴 문자열 배열 players와 해설진이 부른
-          이름을 담은 문자열 배열 callings가 매개변수로 주어질 때, 경주가 끝났을 때 선수들의 이름을 1등부터 등수
-          순서대로 배열에 담아 return 하는 solution 함수를 완성해주세요. -->
+          {{ boardData.problem.content }}
         </div>
         <div v-if="isContentVisible" class="flex my-[10px] text-2xl">
           <span class="flex flex-col">제한사항<span class="border-[3px] border-blue-700" /></span>
@@ -69,25 +182,25 @@
           <span class="flex flex-col">작성한 메모 <span class="border-[3px] border-blue-700" /></span>
         </div>
         <div
-          v-if="isContentVisible"
+          v-if="boardData && isContentVisible"
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          {{ problems.board.memo }}
+          {{ boardData.board.memo }}
           <!-- 문제의 제한 사항을 체크해보면 players 배열의 최대 길이는 50,000이고 callings 배열의 최대 길이는 1,000,000이
           된다. 만약 배열의 index를 활용하여 문제를 풀 경우 최악의 경우 O(n^2)이 되는데 이를 계산해보면 총
           50,000,000,000번 연산해야 하는 경우가 발생한다. 실제로 이러한 방법으로 풀었던 코드가 바로 아래에 있다. -->
         </div>
       </div>
       <div class="px-[50px] bg-white border-[2px] border-gray-300 rounded-[10px]">
-        <div class="flex justify-between mt-[30px] my-[10px]">
+        <div class="flex justify-between mt-[20px] my-[10px]">
           <span class="text-2xl flex flex-col">풀이<span class="border-[3px] border-blue-700"></span></span>
-          <img class="" src="../assets/pen.svg" alt="" />
+          <img class="" src="../assets/pen.svg" alt="pen" @click="goToEditPage" />
         </div>
         <div
           class="mb-[30px] p-[20px] bg-white border-[2px] border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
-          v-if="problems"
+          v-if="boardData"
         >
-          {{ problems.solutions[0].content }}<br />
+          {{ boardData.solutions[0].description }}<br />
           <span>
             <!-- hash 자료구조를 이용해서 풀이하는 방법으로 바꿨다. object의 key로 접근할 때 bigO는 O(1)이다. 먼저,
             players의 name을 key, 해당 index를 value로 초기화해주었다. 다음으로 callings에 대한 반복문을 돌리는데,
@@ -101,11 +214,12 @@
           <span class="font-Pretendards text-red-500">Ref</span>
         </div>
         <div
-          v-if="problems"
+          v-if="boardData"
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          <span>
-            {{ problems.solutions[0].description }}
+          <span
+            >{{ boardData.solutions[0].content }}
+            {{ boardData.solutions[0].description }}
             <!-- <span class="text-red-400"> function</span><span class="text-blue-400"> solution(</span
             ><span class="text-green-500">players, callings</span><span class="text-blue-400">)</span> {<br />
             <span class="text-red-400">&nbsp; const</span> hash =
@@ -130,51 +244,3 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { ref, defineComponent, onMounted } from 'vue';
-import Navbar from '../components/Navbar.vue';
-import axios from 'axios';
-import { useRoute } from 'vue-router';
-
-export default defineComponent({
-  components: { Navbar },
-  setup() {
-    const isContentVisible = ref(false); // 컨텐츠의 가시성을 나타내는 ref 변수
-    const toggleContent = () => {
-      isContentVisible.value = !isContentVisible.value; // 컨텐츠의 가시성을 토글
-    };
-
-    // API 응답 데이터를 저장할 변수 정의
-    // const problems = ref([]);
-
-    const route = useRoute(); // 현재 라우트 정보 가져오기
-    const problems = ref<any>(null); // 문제 데이터를 저장할 변수 정의
-
-    // API에서 데이터를 가져오는 함수
-    const problemAPI = async (boardId: number) => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/v1/boards/${boardId}`);
-        console.log('게시글 조회 성공', response.data.data);
-        problems.value = response.data.data; // 데이터를 변수에 할당하여 반응성 유지
-      } catch (error) {
-        console.error('게시글 조회 실패', error);
-      }
-    };
-
-    // 컴포넌트가 마운트될 때 데이터를 가져오는 함수 호출
-    // problemAPI();
-
-    // 컴포넌트가 마운트될 때 데이터를 가져오는 함수 호출
-    onMounted(() => {
-      const boardId = route.params.id; // URL 파라미터에서 boardId 추출
-      problemAPI(Number(boardId)); // API 호출
-    });
-
-    return {
-      isContentVisible,
-      toggleContent,
-      problems,
-    };
-  },
-});
-</script>
