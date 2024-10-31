@@ -3,6 +3,7 @@ import { ref, defineComponent, onMounted } from 'vue';
 import Navbar from '../components/Navbar.vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
+import { marked } from 'marked';
 
 interface Problem {
   id: number;
@@ -48,7 +49,7 @@ interface BoardData {
 export default defineComponent({
   components: { Navbar },
   setup() {
-    const isContentVisible = ref(false); // 컨텐츠의 가시성을 나타내는 ref 변수
+    const isContentVisible = ref(true); // 컨텐츠의 가시성을 나타내는 ref 변수
     const toggleContent = () => {
       isContentVisible.value = !isContentVisible.value; // 컨텐츠의 가시성을 토글
     };
@@ -69,6 +70,10 @@ export default defineComponent({
       }
     };
 
+    const markdownToHtml = (markdownText: string) => {
+      return marked(markdownText); // marked 라이브러리를 사용하여 HTML로 변환
+    };
+
     // 컴포넌트가 마운트될 때 데이터 로드
     onMounted(fetchBoardData);
 
@@ -83,6 +88,7 @@ export default defineComponent({
       isContentVisible,
       toggleContent,
       boardData,
+      markdownToHtml,
       goToEditPage,
     };
   },
@@ -160,23 +166,7 @@ export default defineComponent({
           v-if="isContentVisible && boardData"
           class="w-[1100px] mb-[20px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          {{ boardData.problem.content }}
-        </div>
-        <div v-if="isContentVisible" class="flex my-[10px] text-2xl">
-          <span class="flex flex-col">제한사항<span class="border-[3px] border-blue-700" /></span>
-        </div>
-        <div
-          v-if="isContentVisible"
-          class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
-        >
-          <span
-            >5 ≤ players의 길이 ≤ 50,000<br />- players[i]는 i번째 선수의 이름을 의미합니다.<br />
-            - players의 원소들은 알파벳 소문자로만 이루어져 있습니다.<br />
-            - players에는 중복된 값이 들어가 있지 않습니다.<br />- 3 ≤ players[i]의 길이 ≤ 10<br />
-            2 ≤ callings의 길이 ≤v1,000,000<br />
-            - callings는 players의 원소들로만 이루어져 있습니다.<br />- 경주 진행중 1등인 선수의 이름은 불리지
-            않습니다.</span
-          >
+          <div v-if="boardData" v-html="markdownToHtml(boardData.problem.content)"></div>
         </div>
         <div v-if="isContentVisible" class="flex my-[10px] text-2xl">
           <span class="flex flex-col">작성한 메모 <span class="border-[3px] border-blue-700" /></span>
@@ -185,7 +175,7 @@ export default defineComponent({
           v-if="boardData && isContentVisible"
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          {{ boardData.board.memo }}
+          <div v-if="boardData" v-html="markdownToHtml(boardData.board.memo)"></div>
           <!-- 문제의 제한 사항을 체크해보면 players 배열의 최대 길이는 50,000이고 callings 배열의 최대 길이는 1,000,000이
           된다. 만약 배열의 index를 활용하여 문제를 풀 경우 최악의 경우 O(n^2)이 되는데 이를 계산해보면 총
           50,000,000,000번 연산해야 하는 경우가 발생한다. 실제로 이러한 방법으로 풀었던 코드가 바로 아래에 있다. -->
@@ -200,7 +190,7 @@ export default defineComponent({
           class="mb-[30px] p-[20px] bg-white border-[2px] border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
           v-if="boardData"
         >
-          {{ boardData.solutions[0].description }}<br />
+          <div v-if="boardData" v-html="markdownToHtml(boardData.solutions[0].description)"></div>
           <span>
             <!-- hash 자료구조를 이용해서 풀이하는 방법으로 바꿨다. object의 key로 접근할 때 bigO는 O(1)이다. 먼저,
             players의 name을 key, 해당 index를 value로 초기화해주었다. 다음으로 callings에 대한 반복문을 돌리는데,
@@ -211,34 +201,35 @@ export default defineComponent({
         </div>
         <div class="flex justify-between my-[10px] text-2xl">
           <span class="flex flex-col">코드<span class="border-[3px] border-blue-700" /></span>
-          <span class="font-Pretendards text-red-500">Ref</span>
+<!--          <span class="font-Pretendards text-red-500">Ref</span>-->
         </div>
         <div
           v-if="boardData"
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
-          <span
-            >{{ boardData.solutions[0].content }}
-            {{ boardData.solutions[0].description }}
-            <!-- <span class="text-red-400"> function</span><span class="text-blue-400"> solution(</span
-            ><span class="text-green-500">players, callings</span><span class="text-blue-400">)</span> {<br />
-            <span class="text-red-400">&nbsp; const</span> hash =
-            <span class="text-red-400">new</span> Map();<br /><br />&nbsp; players.forEach(<span class="text-blue-400"
-              >(</span
-            ><span class="text-green-500">name, index</span><span class="text-blue-400">) => </span> {<br />&nbsp;
-            &nbsp;&nbsp;&nbsp; hash.set(name, index);<br />&nbsp; }) <br /><br />callings.forEach(<span
-              class="text-green-500"
-              >name</span
-            ><span class="text-blue-400"> => </span> { <br /><span class="text-red-400">&nbsp; const</span> currIdx =
-            hash.get(name);<br />
-            <span class="text-red-400">&nbsp; const</span> front = players[currIdx - 1];<br /><br />
-            &nbsp;&nbsp;&nbsp;&nbsp; [players[currIdx], players[currIdx -1]] = [players[currIdx -1],
-            players[currIdx]];<br /><br />
-            &nbsp;&nbsp;&nbsp;&nbsp; hash.set(name, hash.get(name) - 1);<br />
-            &nbsp;&nbsp;&nbsp;&nbsp; hash.set(front, hash.get(name) + 1); <br />})<br /><br />
-            <span class="text-red-400">&nbsp; return</span> players;<br />
-            } -->
-          </span>
+          <div v-if="boardData" v-html="markdownToHtml(boardData.solutions[0].content)"></div>
+<!--          <span-->
+<!--            >{{ boardData.solutions[0].content }}-->
+<!--            {{ boardData.solutions[0].description }}-->
+<!--            &lt;!&ndash; <span class="text-red-400"> function</span><span class="text-blue-400"> solution(</span-->
+<!--            ><span class="text-green-500">players, callings</span><span class="text-blue-400">)</span> {<br />-->
+<!--            <span class="text-red-400">&nbsp; const</span> hash =-->
+<!--            <span class="text-red-400">new</span> Map();<br /><br />&nbsp; players.forEach(<span class="text-blue-400"-->
+<!--              >(</span-->
+<!--            ><span class="text-green-500">name, index</span><span class="text-blue-400">) => </span> {<br />&nbsp;-->
+<!--            &nbsp;&nbsp;&nbsp; hash.set(name, index);<br />&nbsp; }) <br /><br />callings.forEach(<span-->
+<!--              class="text-green-500"-->
+<!--              >name</span-->
+<!--            ><span class="text-blue-400"> => </span> { <br /><span class="text-red-400">&nbsp; const</span> currIdx =-->
+<!--            hash.get(name);<br />-->
+<!--            <span class="text-red-400">&nbsp; const</span> front = players[currIdx - 1];<br /><br />-->
+<!--            &nbsp;&nbsp;&nbsp;&nbsp; [players[currIdx], players[currIdx -1]] = [players[currIdx -1],-->
+<!--            players[currIdx]];<br /><br />-->
+<!--            &nbsp;&nbsp;&nbsp;&nbsp; hash.set(name, hash.get(name) - 1);<br />-->
+<!--            &nbsp;&nbsp;&nbsp;&nbsp; hash.set(front, hash.get(name) + 1); <br />})<br /><br />-->
+<!--            <span class="text-red-400">&nbsp; return</span> players;<br />-->
+<!--            } &ndash;&gt;-->
+<!--          </span>-->
         </div>
       </div>
     </div>

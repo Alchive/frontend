@@ -54,7 +54,7 @@ const filterAlgorithms = (algorithms: string[]) => {
           <div class="flex font-medium text-[13px] text-[#EEEEEE] absolute left-[0.7rem] top-[0.45rem]">
             {{ problem.problemDifficulty }}
           </div>
-          <div class="flex font-medium text-[9px] text-[#FF1515] absolute left-[32%] top-[0.55rem]">Ref</div>
+          <div class="flex font-medium text-[9px] text-[#FF1515] absolute left-[32%] top-[0.55rem]"></div>
         </div>
         <!-- body -->
         <div
