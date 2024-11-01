@@ -24,13 +24,12 @@ interface Problem {
 const problems = ref<Problem[]>([]);
 const filteredProblems = ref<Problem[]>([]); // 필터링된 데이터를 저장하는 상태
 
-const token ='eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNzMwMzYyMTMxLCJleHAiOjE3MzA0MDUzMzF9.043Cns0Tdn-HTNr3QzOAZUyRA_VIGWUCdwqVzN6EUk4'
 const problemAPI = async (offset = 0, limit = 30) => {
   try {
     const response = await axios.get('http://localhost:8080/api/v1/boards', {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
       params: { offset, limit },
     });
