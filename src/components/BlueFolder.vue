@@ -90,10 +90,21 @@ const filterAlgorithms = (algorithms: string[]) => {
                 ></div>
               </div>
               <div
+                v-else-if="problem.problemState === '풀이완료'"
+                class="rounded-[50px] border-[1px_solid_#B0B0B0] bg-[#B0B0B0] m-[0_3.2px_0_0] flex flex-row justify-center p-[0.8px_0.4px_0.6px_1px] w-[8px] h-[8px] box-sizing-border"
+              >
+                <div
+                  class="rounded-[50px] bg-[linear-gradient(180deg,rgba(224,224,224,0.49),rgba(128,128,128,0.49),rgba(224,224,224,0.49))] w-[6.5px] h-[6.5px]"
+                ></div>
+              </div>
+              <div
                 v-else
                 class="rounded-[50px] border-[1px_solid_#FF8181] bg-[#FF8181] m-[0_3.2px_0_0] flex flex-row justify-center p-[0.8px_0.4px_0.6px_1px] w-[8px] h-[8px] box-sizing-border"
               >
                 <div
+                  class="rounded-[50px] bg-[linear-gradient(180deg,rgba(255,204,204,0.49),rgba(255,100,100,0.49),rgba(255,204,204,0.49))] w-[6.5px] h-[6.5px]"
+                ></div>
+              <div
                   class="rounded-[50px] bg-[linear-gradient(180deg,rgba(255,183,183,0.49),rgba(176,0,0,0.49),rgba(255,183,183,0.49))] w-[6.5px] h-[6.5px]"
                 ></div>
               </div>

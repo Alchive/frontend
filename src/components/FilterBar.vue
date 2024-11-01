@@ -24,7 +24,7 @@ interface Problem {
 const problems = ref<Problem[]>([]);
 const filteredProblems = ref<Problem[]>([]); // 필터링된 데이터를 저장하는 상태
 
-const problemAPI = async (offset = 0, limit = 10) => {
+const problemAPI = async (offset = 0, limit = 30) => {
   try {
     const response = await axios.get('http://localhost:8080/api/v1/boards', {
       headers: {
@@ -33,14 +33,20 @@ const problemAPI = async (offset = 0, limit = 10) => {
       },
       params: { offset, limit },
     });
-    console.log('전체 목록 조회 성공', response.data.data.content[0]);
+    // console.log('전체 목록 조회 성공', response.data.data.content[0]);
 
-    const content = response.data.data.content[0];
+    const content = response.data.data.content[0].reverse();
     problems.value = content.map((item: any) => ({
       problemId: item.problem.id,
       problemDifficulty: item.problem.difficulty,
       problemTitle: item.problem.title,
-      problemState: item.board.status === 'CORRECT' ? '맞았습니다' : '틀렸습니다',
+      problemState: item.board.status === 'CORRECT'
+        ? '맞았습니다'
+        : item.board.status === 'INCORRECT'
+        ? '틀렸습니다'
+        : item.board.status === 'NOT_SUBMITTED'
+        ? '미제출'
+        : '풀이완료',
       platform: item.problem.platform,
       problemAlgorithms: item.problem.algorithms,
     }));
@@ -64,6 +70,7 @@ const handlePlatformClick = (platform: string) => {
 };
 
 const updateSelectedTag = (tag: any) => {
+  console.log('tag',tag);
   selectedTag.value = tag;
   filterProblems();
 };
@@ -76,13 +83,14 @@ const filterProblems = () => {
   filteredProblems.value = problems.value.filter(item => {
     const tabFilter =
       selectedTab.value === '전체' ||
-      (selectedTab.value === '맞았습니다' && item.problemState === 'CORRECT') ||
-      (selectedTab.value === '틀렸습니다' && item.problemState === 'INCORRECT') ||
-      (selectedTab.value === '미제출' && item.problemState === 'NOT_SUBMITTED') ||
-      (selectedTab.value === '풀이완료' && item.problemState === 'COMPLETED');
+      (selectedTab.value === '맞았습니다' && item.problemState === '맞았습니다') ||
+      (selectedTab.value === '틀렸습니다' && item.problemState === '틀렸습니다') ||
+      (selectedTab.value === '미제출' && item.problemState === '미제출') ||
+      (selectedTab.value === '풀이완료' && item.problemState === '풀이완료');
 
     const platformFilter = selectedPlatform.value === 'ALL' || item.platform === selectedPlatform.value;
-    const tagFilter = !selectedTag.value || item.problemAlgorithms.includes(selectedTag.value);
+    const cleanedProblemAlgorithms = item.problemAlgorithms.map(algo => algo.replace(/\n/g, ''));
+    const tagFilter = !selectedTag.value || cleanedProblemAlgorithms.includes(String(selectedTag.value).replace(/\n/g, ''));
 
     return tabFilter && platformFilter && tagFilter;
   });
