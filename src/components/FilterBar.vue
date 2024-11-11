@@ -33,7 +33,6 @@ const problemAPI = async (offset = 0, limit = 30) => {
       },
       params: { offset, limit },
     });
-    // console.log('전체 목록 조회 성공', response.data.data.content[0]);
 
     const content = response.data.data.content[0].reverse();
     problems.value = content.map((item: any) => ({

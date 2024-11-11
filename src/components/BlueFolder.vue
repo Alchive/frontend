@@ -71,9 +71,6 @@ const filterAlgorithms = (algorithms: string[]) => {
               src="../assets//mainpage/programers.svg"
               class="mr-2 bg-[50%_50%] bg-cover bg-no-repeat w-[23px] h-[22px]"
             />
-            <!-- <div class="flex justify-center items-center">
-          <img :src="baekjoon" />
-        </div> -->
             <span class="break-words font-semibold text-[20px] text-[#000000]">{{
               truncateString(problem.problemTitle, 17)
             }}</span>
@@ -127,25 +124,3 @@ const filterAlgorithms = (algorithms: string[]) => {
     </div>
   </div>
 </template>
-<!-- <script setup lang="ts">
-import { useRouter } from 'vue-router';
-const router = useRouter();
-
-const truncateString = (str: string, maxLength: number) => {
-  return str.length > maxLength ? str.slice(0, maxLength) + '...' : str;
-};
-
-interface Problem {
-  problemId: number;
-  problemDifficulty: string;
-  problemTitle: string;
-  problemState: string;
-  platform: string;
-  problemAlgorithms: string[];
-}
-const props = defineProps<{ problems: Problem[] }>();
-
-const goToDetailPage = (problemId: number) => {
-  router.push({ name: 'detail-page', params: { id: problemId } });
-};
-</script> -->

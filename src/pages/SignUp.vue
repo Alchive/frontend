@@ -21,15 +21,6 @@
           <input v-model="userName" type="text" placeholder="닉네임을 입력하세요" class="text-neutral-400" />
           <span class="border-[2px] border-neutral-400"></span>
         </div>
-        <!-- <div class="flex flex-col gap-[3px]">
-          <span class="text-6md">한 줄 소개</span>
-          <input
-            type="text"
-            placeholder="당신을 한 줄로 소개해 보세요"
-            class="text-neutral-400"
-          />
-          <span class="border-[2px] border-neutral-400"></span>
-        </div> -->
       </div>
       <div
         @click="handleSubmit"
