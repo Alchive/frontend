@@ -51,7 +51,7 @@ export const useBoardStore = defineStore('boardStore', {
       // 데이터 초기화
       this.boardData = null;
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/boards/${boardId}`);
+        const response = await axios.get(`http://localhost:8080/api/v2/boards/${boardId}`);
         console.log('게시글 조회 성공', response.data.data);
         this.boardData = response.data.data;
       } catch (error) {

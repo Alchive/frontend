@@ -63,7 +63,7 @@ export default {
       }
       try {
         // userName 중복 검사
-        const usernameCheck = await fetch(`http://localhost:8080/api/v1/users/username/${this.userName}`);
+        const usernameCheck = await fetch(`http://localhost:8080/api/v2/users/username/${this.userName}`);
         if (!usernameCheck.ok) {
           // 중복된 userName이 존재하는 경우
           if (usernameCheck.status === 409) {
@@ -75,7 +75,7 @@ export default {
           }
         }
         //user 생성
-        const response = await fetch('http://localhost:8080/api/v1/users', {
+        const response = await fetch('http://localhost:8080/api/v2/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ export default {
         if (error.message === 'Token expired') {
           // 토큰이 만료된 경우, 새로운 토큰을 요청하도록 설정
           try {
-            const tokenRequest = await fetch('http://localhost:8080/api/v1/users/auth/token', {
+            const tokenRequest = await fetch('http://localhost:8080/api/v2/users/auth/token', {
               method: 'GET',
             });
             // API 호출이 성공한 경우

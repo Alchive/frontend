@@ -26,7 +26,7 @@ const filteredProblems = ref<Problem[]>([]); // 필터링된 데이터를 저장
 
 const problemAPI = async (offset = 0, limit = 30) => {
   try {
-    const response = await axios.get('http://localhost:8080/api/v1/boards', {
+    const response = await axios.get('http://localhost:8080/api/v2/boards', {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

@@ -62,7 +62,7 @@ export default defineComponent({
       const boardId = Number(route.params.id); // URL 파라미터에서 boardId 추출
       console.log('boardId', boardId);
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/boards/${boardId}`);
+        const response = await axios.get(`http://localhost:8080/api/v2/boards/${boardId}`);
         console.log('게시글 조회 성공:', response.data.data);
         boardData.value = response.data.data;
       } catch (error) {
@@ -84,12 +84,52 @@ export default defineComponent({
       router.push({ name: 'edit', params: { id: boardId } }); // 'edit' 페이지로 이동하며 ID 전달
     };
 
+    // 마크다운 형식으로 클립보드에 복사하는 함수
+    const copyToClipboard = () => {
+      if (boardData.value) {
+        const markdownContent = `
+# [[${boardData.value.problem.platform}] ${boardData.value.problem.number}. ${boardData.value.problem.title}](${boardData.value.problem.url})
+
+## 문제 내용
+${boardData.value.problem.content}
+
+**알고리즘**: ${boardData.value.problem.algorithms.join(', ')}
+
+> **메모**
+> ${boardData.value.board.memo}
+
+---
+
+## 풀이 설명
+${boardData.value.solutions[0].description}
+
+### 코드
+\`\`\`${boardData.value.solutions[0].language}
+${boardData.value.solutions[0].content
+          .replace(/<br>/g, '\n') // <br>을 줄바꿈으로 변환
+          .replace(/&lt;/g, '<') // HTML 엔티티를 실제 문자로 변환
+          .replace(/&gt;/g, '>')
+          .replace(/&nbsp;/g, ' ')}
+\`\`\`
+
+---
+
+> <small>이 게시물의 양식은 [Alchive](https://github.com/Alchive)를 통해 작성되었습니다.👍😎</small>
+    `;
+
+        navigator.clipboard.writeText(markdownContent).then(() => {
+          alert('내용이 클립보드에 복사되었습니다.');
+        });
+      }
+    };
+
     return {
       isContentVisible,
       toggleContent,
       boardData,
       markdownToHtml,
       goToEditPage,
+      copyToClipboard,
     };
   },
 });
@@ -125,6 +165,9 @@ export default defineComponent({
             </defs>
           </svg>
           <img class="w-[40px] h-[40px]" src="../assets/trash.svg" alt="trash" />
+          <button @click="copyToClipboard" class="my-4 p-2 bg-blue-500 text-white rounded">
+            마크다운 형식으로 복사하기
+          </button>
         </div>
       </div>
       <div class="flex mb-[20px]">
