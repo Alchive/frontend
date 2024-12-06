@@ -24,11 +24,7 @@ export default {
     };
   },
   mounted() {
-    // 문제 데이터 가져오기
-    // const problemStore = useProblemStore();
-    // if (!problemStore.problems.length) {
-    //   problemStore.fetchProblems();
-    // }
+
     const boardStore = useBoardStore();
     const route = useRoute();
     const boardId = Number(route.params.id);
@@ -45,11 +41,6 @@ export default {
         previewStyle: 'vertical',
         plugins: [[codeSyntaxHighlight, { highlighter: Prism }], colorSyntax],
       });
-
-      // boardData의 content를 에디터에 설정
-      // if (this.boardData?.solutions?.[0]?.content) {
-      //   this.editor.setMarkdown(this.boardData.solutions[0].content);
-      // }
     });
 
     // SUBMIT 버튼 클릭 이벤트
@@ -83,7 +74,6 @@ export default {
         <div class="px-[10px] border-[2px] bg-white border-gray-300 rounded-[10px] text-green-600 text-xl">
           {{ boardData.solutions[0].language }}
         </div>
-        <!-- <div class="px-[15px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl">이분탐색</div> -->
       </div>
       <div class="px-[50px] border-[2px] bg-white border-gray-300 rounded-[10px] text-2xl">
         <div class="my-[10px]" @click="toggleContent">
@@ -121,9 +111,6 @@ export default {
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
           {{ boardData.board.memo }}
-          <!-- 문제의 제한 사항을 체크해보면 players 배열의 최대 길이는 50,000이고 callings 배열의 최대 길이는 1,000,000이
-          된다. 만약 배열의 index를 활용하여 문제를 풀 경우 최악의 경우 O(n^2)이 되는데 이를 계산해보면 총
-          50,000,000,000번 연산해야 하는 경우가 발생한다. 실제로 이러한 방법으로 풀었던 코드가 바로 아래에 있다. -->
         </div>
       </div>
       <div class="flex justify-center items-center mt-[30px]" id="editor"></div>

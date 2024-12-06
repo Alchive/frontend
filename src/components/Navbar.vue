@@ -14,9 +14,7 @@
         ></textarea>
         <img class="w-[20px]" src="../assets/search.svg" />
       </div>
-      <!-- <span class="flex items-center text-blue-700">{{ nickname.value }}</span> -->
       <span class="flex items-center text-blue-700">{{ nickname.valueOf() }}</span>
-      <!-- <span class="flex items-center text-blue-700">alchive</span> -->
       <img class="w-[30px]" src="../assets/user.svg" />
     </div>
   </div>
@@ -31,7 +29,6 @@ export default defineComponent({
   setup() {
     const userStore = useUserStore();
     const router = useRouter();
-    // const displayedUserName = computed(() => userStore.userName.valueOf); // 사용자 이름을 computed 속성으로 가져옴
 
     const nickname = computed(() => userStore.userName);
     console.log(nickname.value);

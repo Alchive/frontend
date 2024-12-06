@@ -8,11 +8,6 @@
       <div class="text-[15px] font-Pretendards">나만의 알고리즘 저장소</div>
 
       <div>
-        <!-- <input
-          type="text"
-          v-model="userName"
-          placeholder="Enter your nickname"
-        /> -->
         <button
           @click="handleClickGoogle()"
           class="flex mt-[20px] px-[10px] py-[3px] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.25)] rounded-[10px] bg-gray-100 hover:scale-110"
@@ -29,7 +24,6 @@
   </div>
 </template>
 <script lang="ts">
-// import jwtdecode from 'jwt-decode';
 export default {
   name: 'Login',
   data() {
@@ -39,7 +33,6 @@ export default {
     };
   },
   methods: {
-    // googleLoginBtn()
     async handleClickGoogle() {
       window.open('http://localhost:8080/oauth2/authorization/google');
     },

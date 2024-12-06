@@ -18,7 +18,6 @@ const routes = [
     children: [
       //배경 layout 적용할 페이지 경로 설정
       { path: 'main', name: 'main', component: MainPageVue },
-      // { path: '/', name: 'home', component: MainPageVue },
       { path: '/detail/:id', name: 'detail', component: DetailPage, props: true },
       { path: '/post', name: 'post', component: PostPage },
       { path: '/edit/:id', name: 'edit', component: Editor, props: true },
@@ -26,13 +25,6 @@ const routes = [
     ],
   },
   { path: '/login', name: 'login', component: LoginPopUp },
-  // { path: '/sign', name: 'sign', component: SignUp },
-  // {
-  //   path: '/sign',
-  //   name: 'sign',
-  //   component: MainLayoutVue,
-  //   children: [{ path: '/sign', name: 'sign', component: SignUp }],
-  // },
   { path: '/tag', component: Tags },
   {
     path: '/:pathMatch(.*)*',

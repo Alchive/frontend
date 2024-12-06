@@ -21,15 +21,6 @@
           <input v-model="userName" type="text" placeholder="닉네임을 입력하세요" class="text-neutral-400" />
           <span class="border-[2px] border-neutral-400"></span>
         </div>
-        <!-- <div class="flex flex-col gap-[3px]">
-          <span class="text-6md">한 줄 소개</span>
-          <input
-            type="text"
-            placeholder="당신을 한 줄로 소개해 보세요"
-            class="text-neutral-400"
-          />
-          <span class="border-[2px] border-neutral-400"></span>
-        </div> -->
       </div>
       <div
         @click="handleSubmit"
@@ -72,7 +63,7 @@ export default {
       }
       try {
         // userName 중복 검사
-        const usernameCheck = await fetch(`http://localhost:8080/api/v1/users/username/${this.userName}`);
+        const usernameCheck = await fetch(`http://localhost:8080/api/v2/users/username/${this.userName}`);
         if (!usernameCheck.ok) {
           // 중복된 userName이 존재하는 경우
           if (usernameCheck.status === 409) {
@@ -84,7 +75,7 @@ export default {
           }
         }
         //user 생성
-        const response = await fetch('http://localhost:8080/api/v1/users', {
+        const response = await fetch('http://localhost:8080/api/v2/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -125,7 +116,7 @@ export default {
         if (error.message === 'Token expired') {
           // 토큰이 만료된 경우, 새로운 토큰을 요청하도록 설정
           try {
-            const tokenRequest = await fetch('http://localhost:8080/api/v1/users/auth/token', {
+            const tokenRequest = await fetch('http://localhost:8080/api/v2/users/auth/token', {
               method: 'GET',
             });
             // API 호출이 성공한 경우

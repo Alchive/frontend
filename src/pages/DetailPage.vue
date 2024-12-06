@@ -62,7 +62,7 @@ export default defineComponent({
       const boardId = Number(route.params.id); // URL 파라미터에서 boardId 추출
       console.log('boardId', boardId);
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/boards/${boardId}`);
+        const response = await axios.get(`http://localhost:8080/api/v2/boards/${boardId}`);
         console.log('게시글 조회 성공:', response.data.data);
         boardData.value = response.data.data;
       } catch (error) {
@@ -84,12 +84,52 @@ export default defineComponent({
       router.push({ name: 'edit', params: { id: boardId } }); // 'edit' 페이지로 이동하며 ID 전달
     };
 
+    // 마크다운 형식으로 클립보드에 복사하는 함수
+    const copyToClipboard = () => {
+      if (boardData.value) {
+        const markdownContent = `
+# [[${boardData.value.problem.platform}] ${boardData.value.problem.number}. ${boardData.value.problem.title}](${boardData.value.problem.url})
+
+## 문제 내용
+${boardData.value.problem.content}
+
+**알고리즘**: ${boardData.value.problem.algorithms.join(', ')}
+
+> **메모**
+> ${boardData.value.board.memo}
+
+---
+
+## 풀이 설명
+${boardData.value.solutions[0].description}
+
+### 코드
+\`\`\`${boardData.value.solutions[0].language}
+${boardData.value.solutions[0].content
+          .replace(/<br>/g, '\n') // <br>을 줄바꿈으로 변환
+          .replace(/&lt;/g, '<') // HTML 엔티티를 실제 문자로 변환
+          .replace(/&gt;/g, '>')
+          .replace(/&nbsp;/g, ' ')}
+\`\`\`
+
+---
+
+> <small>이 게시물의 양식은 [Alchive](https://github.com/Alchive)를 통해 작성되었습니다.👍😎</small>
+    `;
+
+        navigator.clipboard.writeText(markdownContent).then(() => {
+          alert('내용이 클립보드에 복사되었습니다.');
+        });
+      }
+    };
+
     return {
       isContentVisible,
       toggleContent,
       boardData,
       markdownToHtml,
       goToEditPage,
+      copyToClipboard,
     };
   },
 });
@@ -108,8 +148,6 @@ export default defineComponent({
       <div class="flex w-full justify-between mt-[40px]">
         <div class="flex gap-[20px]">
           <div class="text-4xl">{{ boardData.problem.number }}. {{ boardData.problem.title }}</div>
-          <!-- <div class="text-4xl">{{ problems.problemNumber }}. {{ problems.problemTitle }}</div>
-          <div class="font-Pretendards text-2xl">{{ problems.problemDifficulty }}</div> -->
         </div>
         <div class="flex">
           <!-- 문제 상태에 따라 fill 색상 변경 -->
@@ -127,6 +165,9 @@ export default defineComponent({
             </defs>
           </svg>
           <img class="w-[40px] h-[40px]" src="../assets/trash.svg" alt="trash" />
+          <button @click="copyToClipboard" class="my-4 p-2 bg-blue-500 text-white rounded">
+            마크다운 형식으로 복사하기
+          </button>
         </div>
       </div>
       <div class="flex mb-[20px]">
@@ -154,7 +195,6 @@ export default defineComponent({
         <div class="px-[10px] border-[2px] bg-white border-gray-300 rounded-[10px] text-green-600 text-xl">
           {{ boardData.solutions[0].language }}
         </div>
-        <!-- <div class="px-[15px] border-[2px] bg-white border-gray-300 rounded-[10px] text-blue-700 text-xl">이분탐색</div> -->
       </div>
       <div class="px-[50px] border-[2px] bg-white border-gray-300 rounded-[10px] text-2xl">
         <div class="my-[10px]" @click="toggleContent">
@@ -176,9 +216,6 @@ export default defineComponent({
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
           <div v-if="boardData" v-html="markdownToHtml(boardData.board.memo)"></div>
-          <!-- 문제의 제한 사항을 체크해보면 players 배열의 최대 길이는 50,000이고 callings 배열의 최대 길이는 1,000,000이
-          된다. 만약 배열의 index를 활용하여 문제를 풀 경우 최악의 경우 O(n^2)이 되는데 이를 계산해보면 총
-          50,000,000,000번 연산해야 하는 경우가 발생한다. 실제로 이러한 방법으로 풀었던 코드가 바로 아래에 있다. -->
         </div>
       </div>
       <div class="px-[50px] bg-white border-[2px] border-gray-300 rounded-[10px]">
@@ -191,45 +228,15 @@ export default defineComponent({
           v-if="boardData"
         >
           <div v-if="boardData" v-html="markdownToHtml(boardData.solutions[0].description)"></div>
-          <span>
-            <!-- hash 자료구조를 이용해서 풀이하는 방법으로 바꿨다. object의 key로 접근할 때 bigO는 O(1)이다. 먼저,
-            players의 name을 key, 해당 index를 value로 초기화해주었다. 다음으로 callings에 대한 반복문을 돌리는데,
-            초기화해주었던 hash에 callings에 대한 요소(이름)로 key에 접근해서 value를 currIdx에 담아두었다. 그럼 해당
-            이름의 index를 받아왔고 이름이 불린 앞사람과 위치를 바꿔야 한다. 앞사람의 이름을 fornt라는 변수에 currIdx -
-            1 값을 담아두었다. -->
-          </span>
         </div>
         <div class="flex justify-between my-[10px] text-2xl">
           <span class="flex flex-col">코드<span class="border-[3px] border-blue-700" /></span>
-<!--          <span class="font-Pretendards text-red-500">Ref</span>-->
         </div>
         <div
           v-if="boardData"
           class="mb-[30px] p-[20px] border-[2px] bg-white border-gray-300 rounded-[10px] font-Pretendards text-[20px]"
         >
           <div v-if="boardData" v-html="markdownToHtml(boardData.solutions[0].content)"></div>
-<!--          <span-->
-<!--            >{{ boardData.solutions[0].content }}-->
-<!--            {{ boardData.solutions[0].description }}-->
-<!--            &lt;!&ndash; <span class="text-red-400"> function</span><span class="text-blue-400"> solution(</span-->
-<!--            ><span class="text-green-500">players, callings</span><span class="text-blue-400">)</span> {<br />-->
-<!--            <span class="text-red-400">&nbsp; const</span> hash =-->
-<!--            <span class="text-red-400">new</span> Map();<br /><br />&nbsp; players.forEach(<span class="text-blue-400"-->
-<!--              >(</span-->
-<!--            ><span class="text-green-500">name, index</span><span class="text-blue-400">) => </span> {<br />&nbsp;-->
-<!--            &nbsp;&nbsp;&nbsp; hash.set(name, index);<br />&nbsp; }) <br /><br />callings.forEach(<span-->
-<!--              class="text-green-500"-->
-<!--              >name</span-->
-<!--            ><span class="text-blue-400"> => </span> { <br /><span class="text-red-400">&nbsp; const</span> currIdx =-->
-<!--            hash.get(name);<br />-->
-<!--            <span class="text-red-400">&nbsp; const</span> front = players[currIdx - 1];<br /><br />-->
-<!--            &nbsp;&nbsp;&nbsp;&nbsp; [players[currIdx], players[currIdx -1]] = [players[currIdx -1],-->
-<!--            players[currIdx]];<br /><br />-->
-<!--            &nbsp;&nbsp;&nbsp;&nbsp; hash.set(name, hash.get(name) - 1);<br />-->
-<!--            &nbsp;&nbsp;&nbsp;&nbsp; hash.set(front, hash.get(name) + 1); <br />})<br /><br />-->
-<!--            <span class="text-red-400">&nbsp; return</span> players;<br />-->
-<!--            } &ndash;&gt;-->
-<!--          </span>-->
         </div>
       </div>
     </div>

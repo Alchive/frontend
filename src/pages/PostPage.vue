@@ -94,7 +94,6 @@ export default {
       isContentVisible.value = !isContentVisible.value; // 컨텐츠의 가시성을 토글
     };
     return {
-      // isContentVisible: false,
       isContentVisible,
       toggleContent,
     };

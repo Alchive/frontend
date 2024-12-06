@@ -16,7 +16,7 @@ export const useProblemStore = defineStore('problemStore', {
   actions: {
     async fetchProblems() {
       try {
-        const response = await fetch('http://localhost:8080/api/v1/boards', {
+        const response = await fetch('http://localhost:8080/api/v2/boards', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
